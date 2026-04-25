@@ -313,11 +313,21 @@ export function MonthView() {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         closeWeeklyTheme();
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goToWeekOffset(-1);
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goToWeekOffset(1);
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [closeWeeklyTheme, showWeeklyTheme]);
+  }, [closeWeeklyTheme, goToWeekOffset, showWeeklyTheme]);
 
   useEffect(() => {
     if (!weeklyTheme || !mondayAutoPopupKey) return;
@@ -566,7 +576,7 @@ export function MonthView() {
                       {selectedWeekRange.label}
                     </button>
                     {showWeekPicker ? (
-                      <div className="absolute right-0 z-20 mt-2 max-h-56 w-52 overflow-auto rounded-xl border border-stone-200 bg-white p-1.5 shadow-lg dark:border-stone-700 dark:bg-stone-900">
+                      <div className="absolute right-0 z-20 mt-2 max-h-56 w-56 overflow-auto rounded-xl border border-stone-200 bg-white p-1.5 shadow-lg dark:border-stone-700 dark:bg-stone-900">
                         {weeklyThemes.map((theme) => {
                           const range = getWeekDateRange(theme.week, year);
                           const active = theme.week === selectedTheme.week;
@@ -610,15 +620,17 @@ export function MonthView() {
             >
               {selectedTheme.title}
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-              {selectedTheme.idea}
-            </p>
-            <p className="mt-4 text-sm italic text-stone-600 dark:text-stone-400">
-              "{selectedTheme.quote}"
-            </p>
-            <p className="mt-1 text-sm text-stone-500 dark:text-stone-500">
-              - {selectedTheme.author}
-            </p>
+            <div className="mt-2 h-70 overflow-y-auto pr-1 sm:h-76">
+              <p className="text-sm leading-relaxed text-stone-700 dark:text-stone-300">
+                {selectedTheme.idea}
+              </p>
+              <p className="mt-4 text-sm italic text-stone-600 dark:text-stone-400">
+                "{selectedTheme.quote}"
+              </p>
+              <p className="mt-1 text-sm text-stone-500 dark:text-stone-500">
+                - {selectedTheme.author}
+              </p>
+            </div>
           </div>
         </div>
       ) : null}

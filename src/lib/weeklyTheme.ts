@@ -57,6 +57,7 @@ function parseWeeklyThemes(raw: string): WeeklyTheme[] {
 }
 
 const WEEKLY_THEMES = parseWeeklyThemes(weeklyRaw);
+const TOTAL_WEEKS = 52;
 
 function getIsoWeekNumber(date: Date): number {
   const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -93,14 +94,26 @@ export function getWeekDateRange(week: number, year: number): WeekDateRange {
 }
 
 export function getWeeklyThemes(): WeeklyTheme[] {
-  return [...WEEKLY_THEMES];
+  const themes: WeeklyTheme[] = [];
+  for (let week = 1; week <= TOTAL_WEEKS; week += 1) {
+    const theme = getThemeForWeek(week);
+    if (theme) themes.push(theme);
+  }
+  return themes;
+}
+
+export function getThemeForWeek(week: number): WeeklyTheme | null {
+  if (!Number.isFinite(week) || week < 1 || week > TOTAL_WEEKS || WEEKLY_THEMES.length === 0) {
+    return null;
+  }
+  const direct = WEEKLY_THEMES.find((t) => t.week === week);
+  if (direct) return direct;
+  const normalizedIndex = (week - 1) % WEEKLY_THEMES.length;
+  const source = WEEKLY_THEMES[normalizedIndex];
+  return source ? { ...source, week } : null;
 }
 
 export function getCurrentWeekTheme(date: Date): WeeklyTheme | null {
-  if (WEEKLY_THEMES.length === 0) return null;
   const isoWeek = getIsoWeekNumber(date);
-  const direct = WEEKLY_THEMES.find((t) => t.week === isoWeek);
-  if (direct) return direct;
-  const normalizedIndex = (isoWeek - 1) % WEEKLY_THEMES.length;
-  return WEEKLY_THEMES[normalizedIndex] ?? null;
+  return getThemeForWeek(isoWeek);
 }
