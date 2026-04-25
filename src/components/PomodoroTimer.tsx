@@ -130,6 +130,7 @@ function playDoneTone() {
 
 export function PomodoroTimer() {
   const logFocusSession = useMutation(api.focusAnalytics.logSession);
+  const focusSummary = useQuery(api.focusAnalytics.summary, {});
   const navigate = useNavigate();
   const persisted = useMemo(loadPersisted, []);
   const currentYear = new Date().getFullYear();
@@ -292,7 +293,7 @@ export function PomodoroTimer() {
     };
   }, [open]);
 
-  const todayStats = useMemo(() => {
+  const localTodayStats = useMemo(() => {
     const today = logs.filter((l) => isToday(l.completedAt));
     const seconds = today.reduce((acc, l) => acc + l.seconds, 0);
     const byLabel = new Map<string, number>();
@@ -307,6 +308,13 @@ export function PomodoroTimer() {
       topLabel: top?.[0] ?? null,
     };
   }, [logs]);
+  const todayStats = focusSummary
+    ? {
+      sessions: focusSummary.today.sessions,
+      minutes: focusSummary.today.minutes,
+      topLabel: localTodayStats.topLabel,
+    }
+    : localTodayStats;
 
   const isRunning = Boolean(running);
   const activeLabel = running?.label.trim() || "Focus";
