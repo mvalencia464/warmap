@@ -32,9 +32,6 @@ export function AnalyticsPage() {
           <h2 className="text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-50">
             Focus insights
           </h2>
-          <p className="text-sm text-stone-600 dark:text-stone-300">
-            Simple signal from your Pomodoro sessions, synced through Convex.
-          </p>
         </header>
 
         {!data ? (
@@ -44,43 +41,50 @@ export function AnalyticsPage() {
         ) : (
           <>
             <section className="grid gap-3 sm:grid-cols-3">
-              <article className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-900/40">
+              <article className="rounded-xl border border-rose-200/70 bg-rose-50/50 p-4 dark:border-rose-900/60 dark:bg-rose-950/20">
                 <p className="text-xs font-semibold tracking-widest text-stone-500 uppercase dark:text-stone-400">
                   Today
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-stone-900 dark:text-stone-50">
+                <p className="mt-2 text-2xl font-semibold text-rose-700 dark:text-rose-300">
                   {data.today.minutes}m
                 </p>
                 <p className="text-xs text-stone-500 dark:text-stone-400">{data.today.sessions} sessions</p>
               </article>
-              <article className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-900/40">
+              <article className="rounded-xl border border-rose-200/70 bg-rose-50/50 p-4 dark:border-rose-900/60 dark:bg-rose-950/20">
                 <p className="text-xs font-semibold tracking-widest text-stone-500 uppercase dark:text-stone-400">
                   Last 7 days
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-stone-900 dark:text-stone-50">
+                <p className="mt-2 text-2xl font-semibold text-rose-700 dark:text-rose-300">
                   {data.week.minutes}m
                 </p>
                 <p className="text-xs text-stone-500 dark:text-stone-400">{data.week.sessions} sessions</p>
               </article>
-              <article className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-900/40">
+              <article className="rounded-xl border border-rose-200/70 bg-rose-50/50 p-4 dark:border-rose-900/60 dark:bg-rose-950/20">
                 <p className="text-xs font-semibold tracking-widest text-stone-500 uppercase dark:text-stone-400">
                   Last 30 days
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-stone-900 dark:text-stone-50">
+                <p className="mt-2 text-2xl font-semibold text-rose-700 dark:text-rose-300">
                   {data.month.minutes}m
                 </p>
                 <p className="text-xs text-stone-500 dark:text-stone-400">{data.month.sessions} sessions</p>
               </article>
             </section>
 
-            <section className="rounded-xl border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-900/40">
+            <section className="rounded-xl border border-rose-200/70 bg-white p-4 dark:border-rose-900/60 dark:bg-stone-900/40">
               <h3 className="text-sm font-semibold text-stone-800 dark:text-stone-100">Weekly activity</h3>
               <div className="mt-3 flex h-40 items-end gap-2">
                 {safeByDay.map((d) => {
                   const h = Math.max(8, Math.round((d.minutes / maxDayMinutes) * 120));
                   return (
-                    <div key={d.day} className="flex min-w-0 flex-1 flex-col items-center gap-1">
-                      <div className="w-full rounded-md bg-stone-200/90 dark:bg-stone-700/90" style={{ height: `${h}px` }} />
+                    <div key={d.day} className="group relative flex min-w-0 flex-1 flex-col items-center gap-1">
+                      <div
+                        className="w-full rounded-md bg-rose-200/80 transition group-hover:bg-rose-500/80 dark:bg-rose-900/60 dark:group-hover:bg-rose-500/70"
+                        style={{ height: `${h}px` }}
+                      />
+                      <div className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-10 -translate-x-1/2 rounded-md border border-rose-200 bg-white px-2 py-1 text-[10px] opacity-0 shadow-sm transition group-hover:opacity-100 dark:border-rose-900/60 dark:bg-stone-900">
+                        <p className="font-semibold text-stone-700 dark:text-stone-200">{d.day}</p>
+                        <p className="text-stone-500 dark:text-stone-400">{d.minutes} minutes focused</p>
+                      </div>
                       <span className="text-[10px] font-semibold tracking-wide text-stone-500 dark:text-stone-400">
                         {dayShort(d.day)}
                       </span>
@@ -91,7 +95,7 @@ export function AnalyticsPage() {
               </div>
             </section>
 
-            <section className="rounded-xl border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-900/40">
+            <section className="rounded-xl border border-rose-200/70 bg-white p-4 dark:border-rose-900/60 dark:bg-stone-900/40">
               <h3 className="text-sm font-semibold text-stone-800 dark:text-stone-100">Top projects</h3>
               {safeTopByProject.length === 0 ? (
                 <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">No completed sessions yet.</p>
