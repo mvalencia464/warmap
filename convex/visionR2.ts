@@ -111,6 +111,9 @@ function createS3Client(config: R2Config) {
       accessKeyId: config.accessKeyId,
       secretAccessKey: config.secretAccessKey,
     },
+    // Default is WHEN_SUPPORTED, which adds CRC32 query params to presigned PutObject;
+    // browser CORS is simpler without extra signed query params.
+    requestChecksumCalculation: "WHEN_REQUIRED",
   });
 }
 
