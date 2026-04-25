@@ -15,40 +15,32 @@ export type WeekDateRange = {
 };
 
 function parseWeeklyThemes(raw: string): WeeklyTheme[] {
-  const lines = raw.split(/\r?\n/);
   const themes: WeeklyTheme[] = [];
+  const blocks = raw.matchAll(/WEEK\s+(\d+):\s*([\s\S]*?)(?=WEEK\s+\d+:|$)/gi);
 
-  for (let i = 0; i < lines.length; i += 1) {
-    const header = lines[i]?.trim().match(/^Week\s+(\d+):\s*(.+)$/i);
-    if (!header) continue;
+  for (const block of blocks) {
+    const week = Number(block[1]);
+    const body = (block[2] ?? "").replace(/\r/g, "").trim();
+    if (!Number.isFinite(week) || !body) continue;
 
-    const week = Number(header[1]);
-    const title = header[2].trim();
-    let idea = "";
-    let quote = "";
-    let author = "";
+    const lines = body
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+    if (lines.length < 3) continue;
 
-    for (let j = i + 1; j < lines.length; j += 1) {
-      const line = lines[j].trim();
-      if (!line) continue;
-      if (/^Week\s+\d+:/i.test(line)) break;
-      if (/^\+\d+$/.test(line)) continue;
+    const title = lines[0];
+    const ideaLine = lines.find((line) => line.startsWith("The Idea:"));
+    const quoteLine = lines.find((line) => line.startsWith("Quote:"));
+    if (!ideaLine || !quoteLine) continue;
 
-      if (!idea && line.startsWith("The Idea:")) {
-        idea = line.slice("The Idea:".length).trim();
-        continue;
-      }
+    const idea = ideaLine.slice("The Idea:".length).trim();
+    const quoteMatch = quoteLine.match(/^Quote:\s*"(.+)"\s+—\s+(.+)$/);
+    if (!quoteMatch) continue;
+    const quote = quoteMatch[1].trim();
+    const author = quoteMatch[2].trim();
 
-      if (!quote && line.startsWith("\"")) {
-        const quoteMatch = line.match(/^"(.+)"\s+—\s+(.+)$/);
-        if (quoteMatch) {
-          quote = quoteMatch[1].trim();
-          author = quoteMatch[2].trim();
-        }
-      }
-    }
-
-    if (Number.isFinite(week) && title && idea && quote && author) {
+    if (title && idea && quote && author) {
       themes.push({ week, title, idea, quote, author });
     }
   }

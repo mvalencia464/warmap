@@ -1,136 +1,211 @@
-Weekly Theme Access (Month View - Minimal)
-
-Goal: Make the weekly theme accessible directly from month view with one subtle, discoverable click.
-
-Placement:
-- Add a small `Weekly` text chip in the month view header (top-right, same row as month title).
-- Keep it neutral by default (no heavy color fill, no icon unless already used in the app).
-
-Interaction:
-- Click `Weekly` to open the current week's theme in a lightweight modal/sheet.
-- Optional secondary behavior: clicking any week row number in month view opens that specific week's theme.
-
-Content shown:
-- Week label (e.g., `Week 12`)
-- Theme title
-- One core idea paragraph
-- One quote
-
-Minimalism rules:
-- One tap in, one tap out.
-- No extra tabs, carousels, or nested navigation.
-- Reuse existing typography and spacing scale from month view.
-- Keep visual hierarchy quiet: date grid remains primary, weekly theme is secondary.
+WEEKLY REMINDERS: 52 WEEKS OF VISION, ACTION, AND MASTERY
 
 ---
 
-Here is the first installment of 52 potent weekly reminders for your app, focusing on the first 13 weeks of the year. These entries combine quotes with their underlying philosophical frameworks to ensure you stay aligned with your vision and prioritize your time ruthlessly.
+WEEK 1: THE GENETIC BLUEPRINT OF SUCCESS
+The Idea: Most people focus on surface-level tactics while ignoring the "Conceptual Integrity" of their life and business. Your vision, mission, and principles are the DNA of your future. Everything that happens from here must be based on this blueprint. Without a clear "North Star," you will build a machine that self-destructs because its components aim in different directions.
+Quote: "Vision, mission, and principles are the DNA of everything to come... everything that happens in the future will be based off this blueprint." — Sam Ovens
 
-Week 1: The Genetic Blueprint of Success
-The Idea: Most people focus on surface-level tactics (ads, funnels, websites) while ignoring the "Conceptual Integrity" of their life and business. Your vision, mission, and principles are the DNA of your future. Everything that happens from here—every decision, hire, and product—must be based on this blueprint. Without a clear "North Star," you will eventually build a machine that self-destructs because its components are aiming in different directions.
-+3
+WEEK 2: THE LAW OF ACTION VS. ATTRACTION
+The Idea: Intent alone is a "lousy" motivator. While envisioning the future is critical, it is useless without "violent action". You must collapse your 30-year vision back to today's micro-tasks and execute them meticulously. Success isn't born; it's made through the residue of good design and unrelenting execution.
+Quote: "I don't believe in the law of attraction... I believe in the law of action. Action without purpose and direction will just be used poorly... but [vision] alone is not enough. You need to execute." — Sam Ovens
 
+WEEK 3: THE AGGREGATION OF 1% GAINS
+The Idea: We often overestimate one defining moment and underestimate the value of making small daily improvements. Habits are the "compound interest" of self-improvement. If you can get just 1% better each day, you will be 37 times better by the end of the year. Focus on the trajectory, not the current results.
+Quote: "Success is the product of daily habits—not once-in-a-lifetime transformations." — James Clear
 
-"Vision, mission, and principles are the DNA of everything to come... everything that happens in the future will be based off this blueprint." — Sam Ovens 
+WEEK 4: THE BUYBACK PRINCIPLE
+The Idea: Most entrepreneurs hit a "Pain Line" where growth feels like a prison because they trade time for money. The fundamental shift is realizing you don't hire people to grow your business; you hire them to buy back your time. If you don't fight for the value of your time, nobody else will.
+Quote: "You don’t hire people to grow your business; you hire people to buy back your time. If you do the first you get a prison, if you do the second you get freedom." — Dan Martell
 
-Week 2: The Law of Action vs. Attraction
-The Idea: Intent alone is a "lousy" motivator. To unlock deeper levels of drive and attract world-class talent, your mission must be bigger than your personal enrichment. While envisioning the future is critical, it is useless without "violent action". You must collapse your 30-year vision back to today's micro-tasks and execute them meticulously. Success isn't born; it's made through the residue of good design and unrelenting execution.
-+4
+WEEK 5: IDENTITY-BASED HABITS
+The Idea: True behavior change is actually identity change. You might start a habit because of motivation, but you only stick with it because it becomes part of who you are. Every action you take is a "vote" for the type of person you wish to become. Don't focus on outcomes; focus on identity.
+Quote: "The goal is not to read a book, the goal is to become a reader. The goal is not to run a marathon, the goal is to become a runner." — James Clear
 
+WEEK 6: SYSTEMS VS. GOALS
+The Idea: Winners and losers often have the same goals. Goals are about the results; systems are about the processes that lead to those results. Achieving a goal only changes your life for a moment; changing the system changes the trajectory for good.
+Quote: "You do not rise to the level of your goals. You fall to the level of your systems." — James Clear
 
-"I don't believe in the law of attraction... I believe in the law of action. Action without purpose and direction will just be used poorly... but [vision] alone is not enough. You need to execute." — Sam Ovens 
-+1
+WEEK 7: THE MAKER VS. MANAGER SCHEDULE
+The Idea: Managers divide time into small chunks to maximize coordination. Makers need large, 4-hour blocks of "Deep Work" to move the ball forward. For a maker, a single 15-minute interruption can destroy half a day of productivity.
+Quote: "A manager’s objective is to fill the day; a maker’s is to keep it empty. Empty time blocks are opportunities to get a return." — Alex Hormozi
 
-Week 3: The aggregation of 1% Gains
+WEEK 8: ENVIRONMENT AS THE ARCHITECT
+The Idea: Motivation is overrated; environment often matters more. We are changed by the world around us because every habit is context-dependent. Redesign your space so the "best choice" is always the "most obvious" one.
+Quote: "Be the designer of your world and not merely the consumer of it." — James Clear
 
-The Idea: We often overestimate the importance of one defining moment and underestimate the value of making small daily improvements. Habits are the "compound interest" of self-improvement. If you can get just 1% better each day, you will be 37 times better by the end of the year. Conversely, ignoring tiny 1% errors leads to toxic results over time. Focus on the trajectory, not the current results.
-+4
+WEEK 9: THE TWO-MINUTE RULE
+The Idea: When starting a new habit, it should take less than two minutes to do. The point is not to do one thing, but to master the habit of showing up. You have to "standardize before you can optimize"—you can't improve a habit that doesn't exist.
+Quote: "When you start a new habit, it should take less than two minutes to do... master the art of showing up." — James Clear
 
+WEEK 10: RUTHLESS ELIMINATION
+The Idea: Focus is not just what you do, but what you don't do. You must eliminate the "Time Assassins"—stalling, micromanaging, and self-medicating. Success often comes from "addition by subtraction": removing friction that saps your energy.
+Quote: "It’s not what I do; it’s what I don’t do... You can’t eliminate the distractions pulling you away from your ideal life until you know what those are." — Dan Martell
 
-"Success is the product of daily habits—not once-in-a-lifetime transformations." — James Clear 
+WEEK 11: THE GOLDILOCKS RULE
+The Idea: The human brain loves a challenge, but only if it is within an optimal zone of difficulty. Peak motivation occurs when working on tasks that are right on the edge of your current abilities—not too hard, not too easy. You must fall in love with boredom to achieve excellence.
+Quote: "The way to maintain motivation and achieve peak levels of desire is to work on tasks of just manageable difficulty... You have to fall in love with boredom." — James Clear
 
-Week 4: The Buyback Principle
+WEEK 12: REFLECTION AND REVIEW
+The Idea: Improvement is not just about learning habits; it’s about fine-tuning them. Without reflection, we make excuses and lie to ourselves. Periodic review allows you to see the important changes you should make without losing sight of the bigger picture.
+Quote: "Reflection and review enables the long-term improvement of all habits because it makes you aware of your mistakes." — James Clear
 
-The Idea: Most entrepreneurs hit a "Pain Line" where more growth feels like a prison because they are trading their time for money. The fundamental shift is realizing you don't hire people to grow your business; you hire them to buy back your time. If you don't fight for the value of your time, nobody else will. Use your income to buy freedom, then fill that freedom with high-value production that lights you up.
-+4
+WEEK 13: NEVER MISS TWICE
+The Idea: Perfection is not possible. The first mistake is an accident; missing twice is the start of a new (bad) habit. On busy days, simply showing up for 5 minutes maintains your compound gains and reaffirms your identity.
+Quote: "Never miss twice. If I miss one day, I try to get back into it as quickly as possible." — James Clear
 
+WEEK 14: THE 10-80-10 RULE
+The Idea: Ensure your "genius" is involved without being the bottleneck. You own the ideation (first 10%) and the integration/final polish (last 10%). The team executes the middle 80%. This moves you from being a "doer" to a "director".
+Quote: "I sit down with my team at the beginning and do the ideation 10%... the next 80% is your team doing the execution... the last 10% is where they take the project back and you look at it." — Dan Martell
 
-"You don’t hire people to grow your business; you hire people to buy back your time. If you do the first you get a prison, if you do the second you get freedom." — Dan Martell 
-+1
+WEEK 15: THE REPLACEMENT LADDER
+The Idea: SCALE requires buying back your capacity in a specific order. Start with an Administrative Assistant (inbox/calendar). Move to Delivery, then Marketing, then Sales. This sequence prevents adding overhead you cannot manage.
+Quote: "The sequence that you hire equals success or failure... you don't hire to grow your business, you hire to buy back your time." — Dan Martell
 
-Week 5: Identity-Based Habits
+WEEK 16: THE FINANCIAL IDENTITY SHIFT
+The Idea: Reprogram your mind to see money as a tool for leverage, not consumption. An employee mindset trades time for money; an owner mindset builds systems; an investor mindset makes money work for them.
+Quote: "If you don't learn to think like an investor, then you'll always be just a high-paid employee." — Robert Kiyosaki (via Dan Martell)
 
-The Idea: True behavior change is actually identity change. You might start a habit because of motivation, but you only stick with it because it becomes part of who you are. Every action you take is a "vote" for the type of person you wish to become. Don't focus on what you want to achieve (outcomes); focus on who you wish to become (identity).
-+2
+WEEK 17: HABITS OF AVOIDANCE AND VISIBLE REWARDS
+The Idea: Sticking with "avoidance" (e.g., no frivolous spending) is hard because nothing happens when you resist. Make avoidance visible by transferring the "saved" money into a dream account immediately.
+Quote: "The immediate reward of seeing yourself save money... feels a lot better than being deprived. You are making it satisfying to do nothing." — James Clear
 
+WEEK 18: THE LAW OF LEAST EFFORT
+The Idea: Energy is precious; the brain is wired to conserve it. Gravitate toward the option that requires the least work. Redesign your life so the actions that matter most are also the easiest to do.
+Quote: "Redesign your life so the actions that matter most are also the actions that are easiest to do." — James Clear
 
-"The goal is not to read a book, the goal is to become a reader. The goal is not to run a marathon, the goal is to become a runner." — James Clear 
+WEEK 19: THE "50 TO FIX IT" RULE
+The Idea: Bottlenecks happen when every minor decision requires your approval. Give every employee a $50 budget to fix problems without asking. This small amount of trust empowers the team to solve problems at the front line.
+Quote: "Everybody in any one of my companies has a $50 budget to fix any problem they see fit... the only rule is they have to tell their leader." — Dan Martell
 
-Week 6: Systems vs. Goals
+WEEK 20: THE ANTICIPATION OF REWARD (DOPAMINE)
+The Idea: Dopamine is released not only when you experience pleasure, but also when you anticipate it. Whenever you predict an opportunity will be rewarding, motivation rises. It is the craving that leads to the response.
+Quote: "It is the anticipation of a reward, not the fulfillment of it, that gets us to take action." — James Clear
 
-The Idea: Prevailing wisdom says the best way to achieve what you want is to set specific goals, but winners and losers often have the same goals. Goals are about the results; systems are about the processes that lead to those results. Achieving a goal only changes your life for a moment; changing the system changes the trajectory for good.
-+3
+WEEK 21: DECISIVE MOMENTS
+The Idea: Each day has a handful of moments that deliver outsized impact. These choices are forks in the road that determine how you spend the next several hours. Master these entry points to control your entire day.
+Quote: "Decisive moments set the options available to your future self... habits are the entry point, not the end point. They are the cab, not the gym." — James Clear
 
+WEEK 22: HIGH STANDARDS VS. "GOOD" WORK
+The Idea: "Good" is the enemy of "Great". Aim high because "small gets small". Maintaining excruciatingly high standards ensures conceptual integrity. People must either meet the bar or leave the organization.
+Quote: "High standards: Great just isn't good enough... I have excruciatingly high standards... and I refuse to lower the bar." — Sam Ovens
 
-"You do not rise to the level of your goals. You fall to the level of your systems." — James Clear 
-+1
+WEEK 23: THE FOUR C’S OF PLAYBOOKS
+The Idea: To scale, you must work through others using playbooks. Use Camcorder (recording), Course (documentation), Cadence (frequency), and Checklist (verification). This allows anyone to produce the same quality result.
+Quote: "Recording yourself doing the work... allows you to be an editor, not an author. You need a system where a burger tastes the same in New York or Melbourne." — Dan Martell
 
-Week 7: The Maker vs. Manager Schedule
-The Idea: There are two types of schedules. Managers divide time into 15-minute chunks to maximize coordination. Makers (creators and builders) need large, 4-hour blocks of "Deep Work" to move the ball forward. For a maker, an empty calendar is a "maximally productive" day. Don't let manager-style "got a minute?" meetings destroy your maker-style output.
-+4
+WEEK 24: THE VALUE OF "NET TIME"
+The Idea: Duplicate your time by stacking tasks that don't compete for the same energy. Use "No Extra Time" (NET) for one-on-one meetings while walking or exercising. This multiplies output without increasing work hours.
+Quote: "Net time stands for no extra time. Anytime I can bring two things together... you can literally put a lot of stuff together that gets the things done that requires no extra time." — Dan Martell
 
+WEEK 25: SPECIALIZATION OVER COMPETITION
+The Idea: When you can't win by being better, win by being different. Combine skills to reduce competition and stand out. A great player creates a new game that favors their unique strengths.
+Quote: "When you can't win by being better, you can win by being different. By combining your skills you reduce the level of competition." — James Clear
 
-"A manager’s objective is to fill the day; a maker’s is to keep it empty. Empty time blocks are opportunities to get a return." — Alex Hormozi 
-+1
+WEEK 26: THE INTEGRITY REPORT
+The Idea: Periodic review ensures you are living according to your core values. Conduct an Integrity Report every 6 months to reflect on your identity and standards. It prevents the gradual slide that happens when you don't pay attention.
+Quote: "My yearly Integrity Report... helps me realize where I went wrong and motivates me to get back on course. It is a time to revisit my core values." — James Clear
 
-Week 8: Environment as the Architect
+WEEK 27: THE PAPERCLIP STRATEGY
+The Idea: Visual measures provide clear evidence of progress, adding immediate satisfaction to any activity. Move physical items (paperclips, marbles) from one jar to another for every completed rep. This reinforces behavior and prevents lying to yourself.
+Quote: "visual measures like moving paper clips... provide clear evidence of your progress. As a result, they reinforce your behavior and add a little bit of immediate satisfaction." — James Clear
 
-The Idea: Motivation is overrated; environment often matters more. We are changed by the world around us because every habit is context-dependent. If you want a habit to be a big part of your life, make the cue a big part of your environment. Redesign your space so the "best choice" is always the "most obvious" one.
-+3
+WEEK 28: HABITS THRIVE IN STABLE ENVIRONMENTS
+The Idea: If you want behavior to be stable, your environment must be stable. Establish a "one space, one use" mantra to avoid mixing contexts. It is easier to build new habits in a new environment without fighting old cues.
+Quote: "A stable environment where everything has a place and a purpose is an environment where habits can easily form." — James Clear
 
+WEEK 29: THE SECRET TO SELF-CONTROL
+The Idea: Disciplined people spend less time in tempting situations. It is easier to avoid temptation than resist it. Eliminate bad habits by reducing exposure to the cues that cause them—make them invisible.
+Quote: "The people with the best self-control are typically the ones who need to use it the least... It’s easier to avoid temptation than resist it." — James Clear
 
-"Be the designer of your world and not merely the consumer of it." — James Clear 
+WEEK 30: TEMPTATION BUNDLING
+The Idea: Link an action you NEED to do with an action you WANT to do. This creates a more attractive habit by pairing it with an immediate reward. More probable behaviors will reinforce less probable ones.
+Quote: "Temptation bundling works by linking an action you want to do with an action you need to do... doing the thing you need to do means you get to do the thing you want to do." — James Clear
 
-Week 9: The Two-Minute Rule
+WEEK 31: JOIN A CULTURE WHERE YOUR HABIT IS NORMAL
+The Idea: We imitate the habits of the close, the many, and the powerful. New habits seem achievable when you see others doing them every day. Friendship and community embed a new identity.
+Quote: "Whatever habits are normal in your culture are among the most attractive behaviors you’ll find... surround yourself with people who have the habits you want to have yourself." — James Clear
 
-The Idea: When you dream about making a change, you end up trying to do too much too soon. To counteract this, scale any new habit down to a version that takes less than two minutes. The point is not to do one thing, but to master the habit of showing up. You have to "standardize before you can optimize"—you can't improve a habit that doesn't exist.
-+3
+WEEK 32: THE "GOT A MINUTE?" COST
+The Idea: Interruptions destroy Maker productivity. "Got a minute?" is incredibly expensive because it creates open loops that sap brain power. Managers must understand that makers work when they are OFF meetings.
+Quote: "Got a minute? is the most expensive thing you can say to a maker... empty time blocks are the opportunity to get a return." — Alex Hormozi
 
+WEEK 33: THE TEST-FIRST HIRING METHOD
+The Idea: You can't work with people until you work with them. Simulate the actual work with a test project for all candidates. This allows you to evaluate them against each other in real-world conditions.
+Quote: "When it comes to team members, I can't work with them until I work with them... simulate the actual work and have all the candidates do the exact same project." — Dan Martell
 
-"When you start a new habit, it should take less than two minutes to do... master the art of showing up." — James Clear 
-+1
+WEEK 34: THE C.L.E.A.R. PRINCIPLE
+The Idea: Use a structured conversation to clear emotional angst and build trust: Create environment, Lead feedback, Emphasize, Ask if more, and Reject/Accept. Honest feedback is the key to leadership growth.
+Quote: "Feedback becomes the ability to inoculate resentment... if you don't create the space for people to give you honest feedback, how are you going to get better?" — Dan Martell
 
-Week 10: Ruthless Elimination
+WEEK 35: THE GOLDILOCKS ZONE OF MOTIVATION
+The Idea: Humans experience peak motivation when working on tasks right on the edge of current abilities. To achieve a Flow state, a task should be roughly 4% beyond your ability. Search for challenges that push your perimeter.
+Quote: "The Goldilocks Rule states that humans experience peak motivation when working on tasks that are right on the edge of their current abilities... not too hard, not too easy, just right." — James Clear
 
-The Idea: Focus is not just about what you do, but what you don't do. To achieve extreme focus, you must eliminate the "Time Assassins"—stalling, micromanaging, and self-medicating. Success often comes from "addition by subtraction": removing the points of friction that sap your energy so you can spend it on what really matters.
-+3
+WEEK 36: FALL IN LOVE WITH BOREDOM
+The Idea: Success often comes down to who can handle the boredom of training every day. We seek novelty when habits become routine, derailing our progress. Professionals stick to the schedule regardless of mood.
+Quote: "The only way to become excellent is to be endlessly fascinated by doing the same thing over and over. You have to fall in love with boredom." — James Clear
 
+WEEK 37: THE DOWNSIDE OF MASTERY
+The Idea: As habits become automatic, you become less sensitive to feedback and fall into mindless repetition. Elite performance requires a combination of automatic habits and deliberate practice. Each habit unlocks the next level.
+Quote: "The upside of habits is that we can do things without thinking. The downside is that you get used to doing things a certain way and stop paying attention to little errors." — James Clear
 
-"It’s not what I do; it’s what I don’t do... You can’t eliminate the distractions pulling you away from your ideal life until you know what those are." — Dan Martell 
+WEEK 38: THE CAREER BEST EFFORT (CBE) PROGRAM
+The Idea: Sustain effort by determining your baseline level of performance and asking for a 1% improvement over the course of a season. Reflection and review ensure you fine-tune habits rather than letting them decline.
+Quote: "Sustaining an effort is the most important thing for any enterprise. The way to be successful is to learn how to do things right, then do them the same way every time." — James Clear
 
-Week 11: The Goldilocks Rule
+WEEK 39: KEEP YOUR IDENTITY SMALL
+The Idea: Clinging too tightly to one version of identity makes you brittle. Redefine yourself with flexible beliefs to adapt to changing circumstances. Progress requires unlearning and upgrading your self-image.
+Quote: "Whoever is stiff and inflexible is a disciple of death; whoever is soft and yielding is a disciple of life... The tighter we cling to an identity, the harder it becomes to grow beyond it." — James Clear
 
-The Idea: The greatest threat to success is not failure, but boredom. To stay motivated, you must work on tasks of "just manageable difficulty"—roughly 4% beyond your current ability. This is the "Goldilocks Zone" where focus narrows and distractions fade away. Mastery requires falling in love with the boredom of doing the same thing over and over until you are excellent.
-+4
+WEEK 40: THE LAW OF FINANCIAL INTELLIGENCE
+The Idea: An asset puts money in your pocket; a liability takes it out. Savings should be used to create more money, not pay bills. Financial intelligence is simply having more options by having assets that cover your expenses.
+Quote: "Intelligence solves problems and produces money; money without financial intelligence is money soon gone." — Robert Kiyosaki
 
+WEEK 41: PROGRAMMING YOUR INNER COMPUTER
+The Idea: Clarity and simplicity build confidence. We program our daily subconscious through auto-suggestions and self-talk. Goals for the future distract from worry about the past.
+Quote: "Our brains are like computers; it's our responsibility to program them daily... Change the instructions and we change the outcomes." — Sam Ovens
 
-"The way to maintain motivation and achieve peak levels of desire is to work on tasks of just manageable difficulty... You have to fall in love with boredom." — James Clear 
-+1
+WEEK 42: THE DIFFERENCE BETWEEN WANTING AND LIKING
+The Idea: You have far more neural circuitry for wanting rewards than for liking them. Happiness is not about achieving pleasure, but about the lack of desire—no longer wanting to change your state.
+Quote: "Happiness is the space between one desire being fulfilled and a new desire forming... Satisfaction equals liking minus wanting." — James Clear
 
-Week 12: Reflection and Review
+WEEK 43: INVERT THE FAILURE: THE HABIT CONTRACT
+The Idea: We are less likely to repeat a bad habit if it is painful or unsatisfying. A habit contract adds a social cost to violations, making them public and painful. Knowing someone is watching is a powerful motivator.
+Quote: "We are less likely to repeat a bad habit if it is painful or unsatisfying... an accountability partner can create an immediate cost to an action." — James Clear
 
-The Idea: Improvement is not just about learning habits; it’s about fine-tuning them. Without reflection, we make excuses and lie to ourselves about our performance. Periodic review—viewing yourself from a "conversational distance"—allows you to see the important changes you should make without losing sight of the bigger picture.
-+2
+WEEK 44: STANDARDIZE BEFORE YOU OPTIMIZE
+The Idea: A habit must be established before it can be improved. Master the art of showing up on busy or sluggish days to reaffirm your identity. Do the easy thing consistently first.
+Quote: "A habit must be established before it can be improved... focus on the first two minutes of the behavior." — James Clear
 
+WEEK 45: THE 300% RULE OF ATTRACTION
+The Idea: Attract your ideal life through 100% clarity, 100% belief, and 100% focus/consistency. Visualize your outcomes daily—wallpaper your phone and laptop with your vision.
+Quote: "If you have 100% clarity and then you have 100% belief... and you can hold that 100% of the time, that's how you attract your ideal life into existence." — Dan Martell
 
-"Reflection and review enables the long-term improvement of all habits because it makes you aware of your mistakes." — James Clear 
+WEEK 46: THE TRAP OF MOTION VS. ACTION
+The Idea: Motion is planning and strategizing; action is the behavior that delivers an outcome. We often use motion to feel like we are progressing while delaying the risk of failure.
+Quote: "Motion allows us to feel like we're making progress without running the risk of failure... You don't want to merely be planning; you want to be practicing." — James Clear
 
-Week 13: Never Miss Twice
+WEEK 47: THE "BUYBACK LOOP" FOR FREEDOM
+The Idea: Audit your time for tasks that suck your energy. Transfer those low-cost tasks to someone else who loves them. Fill the time with high-value work that brings you joy and money.
+Quote: "You don't hire to grow your business; you hire to buy back your time... if you don't fight for the value of your time, nobody else will." — Dan Martell
 
-The Idea: Perfection is not possible, and life will eventually interrupt you. The first mistake is never the one that ruins you; it is the spiral of repeated mistakes that follows. Missing once is an accident; missing twice is the start of a new habit. On busy or sluggish days, simply "showing up" (even for 5 minutes) is huge because it maintains your compound gains and reaffirms your identity.
-+2
+WEEK 48: THE POWER OF VARIABLE REWARDS
+The Idea: Variance in rewards leads to the greatest spikes in dopamine and accelerates habit formation. Variable rewards reduce boredom and keep the Cravings amplified.
+Quote: "Variable rewards won't create a craving, but they are a powerful way to amplify the cravings we already experience because they reduce boredom." — James Clear
 
+WEEK 49: THE FRIEND INVENTORY
+The Idea: Proximity is power—the people around you shape your floor and ceiling. Audit your circle for growth journeys and energy amplifiers. If it isn't a "Hell Yes," it's a "No".
+Quote: "The people around you will shape your floor and your ceiling... You have to audit your circle. Proximity of people is freaking power." — Dan Martell
 
-"Never miss twice. If I miss one day, I try to get back into it as quickly as possible." — James Clear 
+WEEK 50: THE SORITES PARADOX OF HABITS
+The Idea: One tiny change doesn't seem to transform a life, but thousands of them stacked together hit a Tipping Point. Small improvements compound into remarkable results over years.
+Quote: "The Holy Grail of habit change is not a single 1% improvement, but a thousand of them. Small habits don't add up; they compound." — James Clear
 
-Would you like me to proceed with weeks 14 through 26?
+WEEK 51: THE PRE-LOADED YEAR
+The Idea: If you plan right, you can get more done in a year than a decade. Pre-load your calendar with "Big Rocks" first (family, health, major projects) before filling it with minor tasks.
+Quote: "If you plan right, you can get more done in a year than you do in a decade... start with the big rocks." — Dan Martell
+
+WEEK 52: BUILDING AN EMPIRE OF CREATION
+The Idea: Build a life of unlimited creation that you never have to retire from. Redefine identity around building things to remain flexible. On the other side of the work is a world of freedom.
+Quote: "Empire stands for building a life of unlimited creation you never have to retire from... On the other side of doing the work is a world of freedom you have no idea you could live." — Dan Martell
