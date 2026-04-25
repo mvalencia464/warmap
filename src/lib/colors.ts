@@ -84,18 +84,19 @@ const dashboardPlanBar: Record<ColorKey, string> = {
  */
 const monthPlanHint: Record<ColorKey, string> = {
   rose:
-    "bg-rose-50/20 shadow-[inset_0_-2px_0_0_rgb(244_63_94_/_0.28)]",
+    "bg-rose-50/20 shadow-[inset_0_-2px_0_0_rgb(244_63_94_/_0.28)] dark:bg-rose-900/8 dark:shadow-[inset_0_-2px_0_0_rgb(251_113_133_/_0.18)]",
   amber:
-    "bg-amber-50/20 shadow-[inset_0_-2px_0_0_rgb(245_158_11_/_0.28)]",
+    "bg-amber-50/20 shadow-[inset_0_-2px_0_0_rgb(245_158_11_/_0.28)] dark:bg-amber-900/8 dark:shadow-[inset_0_-2px_0_0_rgb(251_191_36_/_0.18)]",
   emerald:
-    "bg-emerald-50/20 shadow-[inset_0_-2px_0_0_rgb(16_185_129_/_0.28)]",
-  sky: "bg-sky-50/20 shadow-[inset_0_-2px_0_0_rgb(14_165_233_/_0.28)]",
+    "bg-emerald-50/20 shadow-[inset_0_-2px_0_0_rgb(16_185_129_/_0.28)] dark:bg-emerald-900/8 dark:shadow-[inset_0_-2px_0_0_rgb(52_211_153_/_0.18)]",
+  sky:
+    "bg-sky-50/20 shadow-[inset_0_-2px_0_0_rgb(14_165_233_/_0.28)] dark:bg-sky-900/8 dark:shadow-[inset_0_-2px_0_0_rgb(56_189_248_/_0.18)]",
   violet:
-    "bg-violet-50/20 shadow-[inset_0_-2px_0_0_rgb(139_92_246_/_0.28)]",
+    "bg-violet-50/20 shadow-[inset_0_-2px_0_0_rgb(139_92_246_/_0.28)] dark:bg-violet-900/8 dark:shadow-[inset_0_-2px_0_0_rgb(167_139_250_/_0.18)]",
   fuchsia:
-    "bg-fuchsia-50/20 shadow-[inset_0_-2px_0_0_rgb(192_38_211_/_0.28)]",
+    "bg-fuchsia-50/20 shadow-[inset_0_-2px_0_0_rgb(192_38_211_/_0.28)] dark:bg-fuchsia-900/8 dark:shadow-[inset_0_-2px_0_0_rgb(217_70_239_/_0.18)]",
   slate:
-    "bg-stone-100/30 shadow-[inset_0_-2px_0_0_rgb(120_113_108_/_0.28)]",
+    "bg-stone-100/30 shadow-[inset_0_-2px_0_0_rgb(120_113_108_/_0.28)] dark:bg-stone-800/12 dark:shadow-[inset_0_-2px_0_0_rgb(168_162_158_/_0.16)]",
 };
 
 const keySwatch: Record<ColorKey, string> = {
