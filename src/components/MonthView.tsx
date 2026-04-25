@@ -258,17 +258,44 @@ export function MonthView() {
   }, [plans, year, month, valid]);
   const dailyQuote = useMemo(() => getQuoteForDate(new Date()), []);
   const weeklyTheme = useMemo(() => getCurrentWeekTheme(new Date()), []);
+  const mondayAutoPopupKey = useMemo(() => {
+    if (!weeklyTheme) return null;
+    const now = new Date();
+    const day = now.getDay();
+    // Convert Sunday-based JS day index to Monday-based offset (Monday=0).
+    const daysSinceMonday = (day + 6) % 7;
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - daysSinceMonday);
+    const mondayLabel = `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, "0")}-${String(monday.getDate()).padStart(2, "0")}`;
+    return `weekly-theme-auto-seen:${mondayLabel}:week-${weeklyTheme.week}`;
+  }, [weeklyTheme]);
+  const closeWeeklyTheme = useCallback(() => {
+    if (mondayAutoPopupKey) {
+      window.localStorage.setItem(mondayAutoPopupKey, "1");
+    }
+    setShowWeeklyTheme(false);
+  }, [mondayAutoPopupKey]);
 
   useEffect(() => {
     if (!showWeeklyTheme) return;
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setShowWeeklyTheme(false);
+        closeWeeklyTheme();
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [showWeeklyTheme]);
+  }, [closeWeeklyTheme, showWeeklyTheme]);
+
+  useEffect(() => {
+    if (!weeklyTheme || !mondayAutoPopupKey) return;
+    const today = new Date();
+    const isMonday = today.getDay() === 1;
+    if (!isMonday) return;
+    const alreadySeen = window.localStorage.getItem(mondayAutoPopupKey) === "1";
+    if (alreadySeen) return;
+    setShowWeeklyTheme(true);
+  }, [mondayAutoPopupKey, weeklyTheme]);
 
   if (!valid) {
     return (
@@ -461,7 +488,7 @@ export function MonthView() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="weekly-theme-title"
-          onClick={() => setShowWeeklyTheme(false)}
+          onClick={closeWeeklyTheme}
         >
           <div
             className="w-full max-w-xl rounded-2xl border border-stone-200 bg-white p-4 shadow-xl sm:p-5 dark:border-stone-700 dark:bg-stone-900"
@@ -474,7 +501,7 @@ export function MonthView() {
               <button
                 type="button"
                 className="text-xs font-medium text-stone-400 transition hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300"
-                onClick={() => setShowWeeklyTheme(false)}
+                onClick={closeWeeklyTheme}
                 aria-label="Close weekly theme"
               >
                 Close
