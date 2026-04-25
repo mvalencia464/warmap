@@ -13,6 +13,8 @@ import {
   useSensor,
   useSensors,
   closestCorners,
+  pointerWithin,
+  type CollisionDetection,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { api } from "../../convex/_generated/api";
@@ -31,11 +33,22 @@ import { clsx } from "clsx";
 import { dayCellDropId, endDropId } from "../lib/taskDndIds";
 import { DayEndDrop, SortableTaskRow, TaskDragPreview } from "./TaskDnDRow";
 import { getQuoteForDate } from "../lib/dailyQuote";
+import { useMatchMaxWidth } from "../hooks/useMatchMaxWidth";
+
+/** Must stay in sync with Tailwind `sm` (40rem) — below this we use the stacked month layout. */
+const MONTH_STACK_MAX_PX = 639;
 
 /** Aligned to five `h-7` (1.75rem) task rows in `SortableTaskRow` */
 const DAY_TASK_AREA_MIN = "min-h-[8.75rem]";
 
+const monthCollision: CollisionDetection = (args) => {
+  const inside = pointerWithin(args);
+  if (inside && inside.length > 0) return inside;
+  return closestCorners(args);
+};
+
 export function MonthView() {
+  const useStackedMonth = useMatchMaxWidth(MONTH_STACK_MAX_PX);
   const { year: y, month: m } = useParams<{ year: string; month: string }>();
   const year = y ? Number(y) : NaN;
   const month = m ? Number(m) : NaN;
@@ -208,7 +221,7 @@ export function MonthView() {
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, {
-      activationConstraint: { delay: 200, tolerance: 8 },
+      activationConstraint: { delay: 200, tolerance: 12 },
     }),
   );
 
@@ -282,7 +295,7 @@ export function MonthView() {
 
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCorners}
+        collisionDetection={monthCollision}
         onDragStart={onDragStart}
         onDragOver={onDragOver}
         onDragEnd={onDragEnd}
@@ -290,62 +303,64 @@ export function MonthView() {
         autoScroll
       >
         <div className="w-full min-w-0 px-2.5 sm:px-0">
-          <div className="space-y-3.5 sm:hidden">
-            {monthGridCells(year, month)
-              .filter((cell) => cell.inMonth)
-              .map((cell) => (
-                <DayColumn
-                  key={cell.iso}
-                  day={cell.iso}
-                  inMonth
-                  stacked
-                  isToday={isTodayStr(cell.iso)}
-                  dayNum={cell.day}
-                  items={byDay.get(cell.iso) ?? []}
-                  categories={categories}
-                  isComposing={composingDay === cell.iso}
-                  isDropTarget={hoveredDay === cell.iso}
-                  onOpenCompose={() => {
-                    if ((byDay.get(cell.iso) ?? []).length < 5) {
-                      setComposingDay(cell.iso);
-                    }
-                  }}
-                  onCloseCompose={() => setComposingDay(null)}
-                  planHints={dayPlanHints.get(cell.iso) ?? []}
-                />
-              ))}
-          </div>
-
-          <div className="hidden sm:block">
-            <div className="mb-2 grid min-w-0 grid-cols-7 border-b border-stone-200/80 pb-1 text-center text-xs font-medium uppercase tracking-wider text-stone-400">
-              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
-                <div key={d}>{d}</div>
-              ))}
+          {useStackedMonth ? (
+            <div className="space-y-3.5">
+              {monthGridCells(year, month)
+                .filter((cell) => cell.inMonth)
+                .map((cell) => (
+                  <DayColumn
+                    key={cell.iso}
+                    day={cell.iso}
+                    inMonth
+                    stacked
+                    isToday={isTodayStr(cell.iso)}
+                    dayNum={cell.day}
+                    items={byDay.get(cell.iso) ?? []}
+                    categories={categories}
+                    isComposing={composingDay === cell.iso}
+                    isDropTarget={hoveredDay === cell.iso}
+                    onOpenCompose={() => {
+                      if ((byDay.get(cell.iso) ?? []).length < 5) {
+                        setComposingDay(cell.iso);
+                      }
+                    }}
+                    onCloseCompose={() => setComposingDay(null)}
+                    planHints={dayPlanHints.get(cell.iso) ?? []}
+                  />
+                ))}
             </div>
+          ) : (
+            <div>
+              <div className="mb-2 grid min-w-0 grid-cols-7 border-b border-stone-200/80 pb-1 text-center text-xs font-medium uppercase tracking-wider text-stone-400">
+                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
+                  <div key={d}>{d}</div>
+                ))}
+              </div>
 
-            <div className="grid w-full min-w-0 auto-rows-min grid-cols-7 overflow-hidden rounded-md border border-stone-200/50">
-              {monthGridCells(year, month).map((cell) => (
-                <DayColumn
-                  key={cell.iso}
-                  day={cell.iso}
-                  inMonth={cell.inMonth}
-                  isToday={isTodayStr(cell.iso)}
-                  dayNum={cell.day}
-                  items={cell.inMonth ? byDay.get(cell.iso) ?? [] : []}
-                  categories={categories}
-                  isComposing={composingDay === cell.iso}
-                  isDropTarget={cell.inMonth && hoveredDay === cell.iso}
-                  onOpenCompose={() => {
-                    if ((byDay.get(cell.iso) ?? []).length < 5) {
-                      setComposingDay(cell.iso);
-                    }
-                  }}
-                  onCloseCompose={() => setComposingDay(null)}
-                  planHints={dayPlanHints.get(cell.iso) ?? []}
-                />
-              ))}
+              <div className="grid w-full min-w-0 auto-rows-min grid-cols-7 overflow-hidden rounded-md border border-stone-200/50">
+                {monthGridCells(year, month).map((cell) => (
+                  <DayColumn
+                    key={cell.iso}
+                    day={cell.iso}
+                    inMonth={cell.inMonth}
+                    isToday={isTodayStr(cell.iso)}
+                    dayNum={cell.day}
+                    items={cell.inMonth ? byDay.get(cell.iso) ?? [] : []}
+                    categories={categories}
+                    isComposing={composingDay === cell.iso}
+                    isDropTarget={cell.inMonth && hoveredDay === cell.iso}
+                    onOpenCompose={() => {
+                      if ((byDay.get(cell.iso) ?? []).length < 5) {
+                        setComposingDay(cell.iso);
+                      }
+                    }}
+                    onCloseCompose={() => setComposingDay(null)}
+                    planHints={dayPlanHints.get(cell.iso) ?? []}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <DragOverlay
           adjustScale={false}
