@@ -8,6 +8,12 @@ export type WeeklyTheme = {
   author: string;
 };
 
+export type WeekDateRange = {
+  startIso: string;
+  endIso: string;
+  label: string;
+};
+
 function parseWeeklyThemes(raw: string): WeeklyTheme[] {
   const lines = raw.split(/\r?\n/);
   const themes: WeeklyTheme[] = [];
@@ -58,6 +64,36 @@ function getIsoWeekNumber(date: Date): number {
   utcDate.setUTCDate(utcDate.getUTCDate() + 4 - day);
   const yearStart = new Date(Date.UTC(utcDate.getUTCFullYear(), 0, 1));
   return Math.ceil((((utcDate.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+}
+
+function toIsoDateFromUtc(date: Date): string {
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
+}
+
+function formatRangeLabelFromUtc(start: Date, end: Date): string {
+  const fmt = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", timeZone: "UTC" });
+  return `${fmt.format(start)} - ${fmt.format(end)}`;
+}
+
+export function getWeekDateRange(week: number, year: number): WeekDateRange {
+  const jan4 = new Date(Date.UTC(year, 0, 4));
+  const jan4Weekday = jan4.getUTCDay() || 7;
+  const week1Monday = new Date(jan4);
+  week1Monday.setUTCDate(jan4.getUTCDate() - jan4Weekday + 1);
+  const start = new Date(week1Monday);
+  start.setUTCDate(week1Monday.getUTCDate() + (week - 1) * 7);
+  const end = new Date(start);
+  end.setUTCDate(start.getUTCDate() + 6);
+
+  return {
+    startIso: toIsoDateFromUtc(start),
+    endIso: toIsoDateFromUtc(end),
+    label: formatRangeLabelFromUtc(start, end),
+  };
+}
+
+export function getWeeklyThemes(): WeeklyTheme[] {
+  return [...WEEKLY_THEMES];
 }
 
 export function getCurrentWeekTheme(date: Date): WeeklyTheme | null {

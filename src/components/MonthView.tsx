@@ -33,7 +33,7 @@ import { clsx } from "clsx";
 import { dayCellDropId, endDropId } from "../lib/taskDndIds";
 import { DayEndDrop, SortableTaskRow, TaskDragPreview } from "./TaskDnDRow";
 import { getQuoteForDate } from "../lib/dailyQuote";
-import { getCurrentWeekTheme } from "../lib/weeklyTheme";
+import { getCurrentWeekTheme, getWeekDateRange, getWeeklyThemes } from "../lib/weeklyTheme";
 import { useMatchMaxWidth } from "../hooks/useMatchMaxWidth";
 
 /** Must stay in sync with Tailwind `sm` (40rem) — below this we use the stacked month layout. */
@@ -106,6 +106,7 @@ export function MonthView() {
   const [activeDrag, setActiveDrag] = useState<Doc<"tasks"> | null>(null);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showWeeklyTheme, setShowWeeklyTheme] = useState(false);
+  const [showWeekPicker, setShowWeekPicker] = useState(false);
 
   const onDragStart = useCallback(
     (e: DragStartEvent) => {
@@ -257,7 +258,21 @@ export function MonthView() {
       .sort((a, b) => a.startDate.localeCompare(b.startDate));
   }, [plans, year, month, valid]);
   const dailyQuote = useMemo(() => getQuoteForDate(new Date()), []);
+  const weeklyThemes = useMemo(() => getWeeklyThemes(), []);
   const weeklyTheme = useMemo(() => getCurrentWeekTheme(new Date()), []);
+  const [selectedWeek, setSelectedWeek] = useState<number | null>(weeklyTheme?.week ?? null);
+  const selectedTheme = useMemo(() => {
+    if (!selectedWeek) return weeklyTheme;
+    return weeklyThemes.find((theme) => theme.week === selectedWeek) ?? weeklyTheme;
+  }, [selectedWeek, weeklyTheme, weeklyThemes]);
+  const selectedWeekIndex = useMemo(() => {
+    if (!selectedTheme) return -1;
+    return weeklyThemes.findIndex((theme) => theme.week === selectedTheme.week);
+  }, [selectedTheme, weeklyThemes]);
+  const selectedWeekRange = useMemo(() => {
+    if (!selectedTheme || !valid) return null;
+    return getWeekDateRange(selectedTheme.week, year);
+  }, [selectedTheme, valid, year]);
   const mondayAutoPopupKey = useMemo(() => {
     if (!weeklyTheme) return null;
     const now = new Date();
@@ -269,12 +284,29 @@ export function MonthView() {
     const mondayLabel = `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, "0")}-${String(monday.getDate()).padStart(2, "0")}`;
     return `weekly-theme-auto-seen:${mondayLabel}:week-${weeklyTheme.week}`;
   }, [weeklyTheme]);
+  const openWeeklyTheme = useCallback(() => {
+    if (weeklyTheme) {
+      setSelectedWeek(weeklyTheme.week);
+    }
+    setShowWeekPicker(false);
+    setShowWeeklyTheme(true);
+  }, [weeklyTheme]);
   const closeWeeklyTheme = useCallback(() => {
     if (mondayAutoPopupKey) {
       window.localStorage.setItem(mondayAutoPopupKey, "1");
     }
+    setShowWeekPicker(false);
     setShowWeeklyTheme(false);
   }, [mondayAutoPopupKey]);
+  const goToWeekOffset = useCallback(
+    (direction: -1 | 1) => {
+      if (weeklyThemes.length === 0 || selectedWeekIndex < 0) return;
+      const next = (selectedWeekIndex + direction + weeklyThemes.length) % weeklyThemes.length;
+      setSelectedWeek(weeklyThemes[next].week);
+      setShowWeekPicker(false);
+    },
+    [selectedWeekIndex, weeklyThemes],
+  );
 
   useEffect(() => {
     if (!showWeeklyTheme) return;
@@ -294,8 +326,13 @@ export function MonthView() {
     if (!isMonday) return;
     const alreadySeen = window.localStorage.getItem(mondayAutoPopupKey) === "1";
     if (alreadySeen) return;
-    setShowWeeklyTheme(true);
-  }, [mondayAutoPopupKey, weeklyTheme]);
+    openWeeklyTheme();
+  }, [mondayAutoPopupKey, openWeeklyTheme, weeklyTheme]);
+
+  useEffect(() => {
+    if (!weeklyTheme) return;
+    setSelectedWeek((prev) => prev ?? weeklyTheme.week);
+  }, [weeklyTheme]);
 
   if (!valid) {
     return (
@@ -338,7 +375,7 @@ export function MonthView() {
           <button
             type="button"
             className="mt-0.5 text-xs font-medium tracking-wide text-stone-400 underline-offset-4 transition hover:text-stone-600 hover:underline dark:text-stone-500 dark:hover:text-stone-300"
-            onClick={() => setShowWeeklyTheme(true)}
+            onClick={openWeeklyTheme}
           >
             Weekly
           </button>
@@ -482,7 +519,7 @@ export function MonthView() {
         />
       </footer>
 
-      {showWeeklyTheme && weeklyTheme ? (
+      {showWeeklyTheme && selectedTheme ? (
         <div
           className="fixed inset-0 z-50 flex items-end bg-stone-900/30 p-3 sm:items-center sm:justify-center sm:p-6"
           role="dialog"
@@ -494,33 +531,93 @@ export function MonthView() {
             className="w-full max-w-xl rounded-2xl border border-stone-200 bg-white p-4 shadow-xl sm:p-5 dark:border-stone-700 dark:bg-stone-900"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-2 flex items-start justify-between gap-4">
-              <p className="text-xs font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
-                Week {weeklyTheme.week}
-              </p>
-              <button
-                type="button"
-                className="text-xs font-medium text-stone-400 transition hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300"
-                onClick={closeWeeklyTheme}
-                aria-label="Close weekly theme"
-              >
-                Close
-              </button>
+            <div className="mb-3 flex items-start justify-between gap-4">
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-stone-200 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-700 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+                  onClick={() => goToWeekOffset(-1)}
+                  aria-label="Previous week"
+                >
+                  ‹
+                </button>
+                <p className="text-xs font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                  Week {selectedTheme.week}
+                </p>
+                <button
+                  type="button"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-stone-200 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-700 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+                  onClick={() => goToWeekOffset(1)}
+                  aria-label="Next week"
+                >
+                  ›
+                </button>
+              </div>
+              <div className="flex items-center gap-3">
+                {selectedWeekRange ? (
+                  <div className="relative">
+                    <button
+                      type="button"
+                      className="text-xs font-medium text-stone-500 underline-offset-4 transition hover:text-stone-700 hover:underline dark:text-stone-400 dark:hover:text-stone-200"
+                      onClick={() => setShowWeekPicker((v) => !v)}
+                      aria-haspopup="listbox"
+                      aria-expanded={showWeekPicker}
+                    >
+                      {selectedWeekRange.label}
+                    </button>
+                    {showWeekPicker ? (
+                      <div className="absolute right-0 z-20 mt-2 max-h-56 w-52 overflow-auto rounded-xl border border-stone-200 bg-white p-1.5 shadow-lg dark:border-stone-700 dark:bg-stone-900">
+                        {weeklyThemes.map((theme) => {
+                          const range = getWeekDateRange(theme.week, year);
+                          const active = theme.week === selectedTheme.week;
+                          return (
+                            <button
+                              key={theme.week}
+                              type="button"
+                              className={clsx(
+                                "flex w-full items-center justify-between rounded-md px-2 py-1.5 text-left text-xs transition",
+                                active
+                                  ? "bg-stone-100 text-stone-900 dark:bg-stone-800 dark:text-stone-100"
+                                  : "text-stone-600 hover:bg-stone-50 dark:text-stone-300 dark:hover:bg-stone-800/70",
+                              )}
+                              onClick={() => {
+                                setSelectedWeek(theme.week);
+                                setShowWeekPicker(false);
+                              }}
+                            >
+                              <span>Week {theme.week}</span>
+                              <span className="text-stone-400 dark:text-stone-500">{range.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : null}
+                  </div>
+                ) : null}
+                <button
+                  type="button"
+                  className="text-xs font-medium text-stone-400 transition hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300"
+                  onClick={closeWeeklyTheme}
+                  aria-label="Close weekly theme"
+                >
+                  Close
+                </button>
+              </div>
             </div>
             <h3
               id="weekly-theme-title"
               className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-50"
             >
-              {weeklyTheme.title}
+              {selectedTheme.title}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-              {weeklyTheme.idea}
+              {selectedTheme.idea}
             </p>
             <p className="mt-4 text-sm italic text-stone-600 dark:text-stone-400">
-              "{weeklyTheme.quote}"
+              "{selectedTheme.quote}"
             </p>
             <p className="mt-1 text-sm text-stone-500 dark:text-stone-500">
-              - {weeklyTheme.author}
+              - {selectedTheme.author}
             </p>
           </div>
         </div>
