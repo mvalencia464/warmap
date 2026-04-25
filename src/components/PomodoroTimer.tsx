@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { clsx } from "clsx";
+import { createPortal } from "react-dom";
 
 const STORAGE_KEY = "war-map-pomodoro-v1";
 const MIN_MINUTES = 1;
@@ -117,7 +118,10 @@ export function PomodoroTimer() {
     return Math.max(0, Math.ceil((persisted.running.endsAt - Date.now()) / 1000));
   });
   const wrapRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
   const titleBeforeTimerRef = useRef<string | null>(null);
+  const [panelPos, setPanelPos] = useState<{ top: number; left: number } | null>(null);
 
   useEffect(() => {
     savePersisted({ minutesDraft, labelDraft, soundEnabled, running, logs });
@@ -176,10 +180,23 @@ export function PomodoroTimer() {
 
   useEffect(() => {
     if (!open) return;
+    const recalc = () => {
+      const r = triggerRef.current?.getBoundingClientRect();
+      if (!r) return;
+      setPanelPos({
+        top: r.bottom + 8,
+        left: Math.max(12, r.right - 288),
+      });
+    };
+    recalc();
+    const onRecalc = () => recalc();
+    window.addEventListener("scroll", onRecalc, true);
+    window.addEventListener("resize", onRecalc);
     const onMouse = (e: MouseEvent) => {
       const t = e.target;
       if (!(t instanceof Node)) return;
       if (wrapRef.current?.contains(t)) return;
+      if (panelRef.current?.contains(t)) return;
       setOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
@@ -188,6 +205,8 @@ export function PomodoroTimer() {
     document.addEventListener("mousedown", onMouse, true);
     document.addEventListener("keydown", onKey, true);
     return () => {
+      window.removeEventListener("scroll", onRecalc, true);
+      window.removeEventListener("resize", onRecalc);
       document.removeEventListener("mousedown", onMouse, true);
       document.removeEventListener("keydown", onKey, true);
     };
@@ -236,6 +255,7 @@ export function PomodoroTimer() {
     <div className="relative" ref={wrapRef}>
       <button
         type="button"
+        ref={triggerRef}
         className={clsx(
           "rounded-md border border-stone-200/90 bg-white px-2 py-1 text-xs font-medium text-stone-600 shadow-sm transition",
           "hover:border-stone-300 hover:bg-stone-50",
@@ -247,8 +267,12 @@ export function PomodoroTimer() {
         {isRunning ? formatClock(secondsLeft) : "Focus"}
       </button>
 
-      {open && (
-        <div className="absolute right-0 z-40 mt-2 w-72 rounded-xl border border-stone-200 bg-white p-3 shadow-xl">
+      {open && panelPos && typeof document !== "undefined" && createPortal(
+        <div
+          ref={panelRef}
+          className="fixed z-260 w-72 rounded-xl border border-stone-200 bg-white p-3 shadow-xl"
+          style={{ top: panelPos.top, left: panelPos.left }}
+        >
           <p className="text-xs font-semibold tracking-wide text-stone-500 uppercase">Pomodoro</p>
           <div className="mt-2 flex items-end gap-2">
             <label className="flex-1 text-xs text-stone-600">
@@ -311,7 +335,8 @@ export function PomodoroTimer() {
               <p className="mt-0.5 truncate">Top focus: <span className="font-medium text-stone-800">{todayStats.topLabel}</span></p>
             ) : null}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
