@@ -74,6 +74,10 @@ function formatClock(seconds: number): string {
   return `${mm}:${ss}`;
 }
 
+function formatMinutes(seconds: number): number {
+  return Math.round(seconds / 60);
+}
+
 function isToday(ts: number): boolean {
   const d = new Date(ts);
   const n = new Date();
@@ -201,9 +205,11 @@ export function PomodoroTimer() {
     const recalc = () => {
       const r = triggerRef.current?.getBoundingClientRect();
       if (!r) return;
+      const panelWidth = 320;
+      const maxLeft = typeof window !== "undefined" ? Math.max(12, window.innerWidth - panelWidth - 12) : 12;
       setPanelPos({
         top: r.bottom + 8,
-        left: Math.max(12, r.right - 288),
+        left: Math.min(maxLeft, Math.max(12, r.right - panelWidth)),
       });
     };
     recalc();
@@ -248,6 +254,10 @@ export function PomodoroTimer() {
 
   const isRunning = Boolean(running);
   const activeLabel = running?.label.trim() || "Focus";
+  const draftMinutes = clampMinutes(Number.parseInt(minutesDraft, 10) || 25);
+  const totalForDisplay = running ? running.totalSeconds : draftMinutes * 60;
+  const displaySeconds = isRunning ? secondsLeft : totalForDisplay;
+  const progressRatio = totalForDisplay > 0 ? Math.max(0, Math.min(1, displaySeconds / totalForDisplay)) : 0;
 
   const start = () => {
     const parsed = Number.parseInt(minutesDraft, 10);
@@ -290,69 +300,115 @@ export function PomodoroTimer() {
       {open && panelPos && typeof document !== "undefined" && createPortal(
         <div
           ref={panelRef}
-          className="fixed z-260 w-72 rounded-xl border border-stone-200 bg-white p-3 shadow-xl dark:border-stone-600/90 dark:bg-stone-900 dark:shadow-black/30"
+          className="fixed z-260 w-80 rounded-2xl border border-stone-200 bg-white p-4 shadow-xl dark:border-stone-600/90 dark:bg-stone-900 dark:shadow-black/30"
           style={{ top: panelPos.top, left: panelPos.left }}
         >
-          <p className="text-xs font-semibold tracking-wide text-stone-500 uppercase dark:text-stone-400">
-            Pomodoro
-          </p>
-          <div className="mt-2 flex items-end gap-2">
-            <label className="flex-1 text-xs text-stone-600 dark:text-stone-400">
-              Minutes
-              <input
-                type="number"
-                min={MIN_MINUTES}
-                max={MAX_MINUTES}
-                value={minutesDraft}
-                onChange={(e) => setMinutesDraft(e.target.value)}
-                className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-sm text-stone-900 dark:border-stone-600 dark:bg-stone-950/80 dark:text-stone-100"
-                disabled={isRunning}
+          <div className="flex items-center justify-between">
+            <span className="rounded-full border border-stone-200 px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.16em] text-stone-500 uppercase dark:border-stone-700 dark:text-stone-400">
+              Focus
+            </span>
+            <span className="text-[11px] text-stone-500 dark:text-stone-400">
+              {activeLabel}
+            </span>
+          </div>
+          <div className="relative mt-3 flex items-center justify-center">
+            <svg viewBox="0 0 120 120" className="h-44 w-44">
+              <circle
+                cx="60"
+                cy="60"
+                r="52"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                className="text-stone-200 dark:text-stone-700"
               />
-            </label>
+              <circle
+                cx="60"
+                cy="60"
+                r="52"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                className="text-rose-500"
+                style={{
+                  strokeDasharray: `${2 * Math.PI * 52}`,
+                  strokeDashoffset: `${2 * Math.PI * 52 * (1 - progressRatio)}`,
+                  transformOrigin: "50% 50%",
+                  transform: "rotate(-90deg)",
+                  transition: "stroke-dashoffset 220ms ease",
+                }}
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <p className="font-light tabular-nums text-5xl tracking-tight text-stone-900 dark:text-stone-100">
+                {formatClock(displaySeconds)}
+              </p>
+              <p className="mt-1 text-[10px] font-semibold tracking-[0.16em] text-stone-500 uppercase dark:text-stone-400">
+                Minutes remaining
+              </p>
+            </div>
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={stop}
+              disabled={!isRunning}
+              className="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-600 transition hover:bg-stone-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800/70"
+            >
+              Reset
+            </button>
             <button
               type="button"
               onClick={isRunning ? stop : start}
               className={clsx(
-                "rounded-md px-3 py-1.5 text-sm font-medium transition",
+                "rounded-full px-6 py-2 text-sm font-semibold transition",
                 isRunning
                   ? "bg-stone-200 text-stone-700 hover:bg-stone-300 dark:bg-stone-700 dark:text-stone-200 dark:hover:bg-stone-600"
-                  : "bg-stone-800 text-white hover:bg-stone-700 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-100",
+                  : "bg-rose-600 text-white shadow-[0_12px_30px_-14px_rgba(225,29,72,0.8)] hover:bg-rose-500",
               )}
             >
               {isRunning ? "Stop" : "Start"}
             </button>
           </div>
-
-          <label className="mt-2 block text-xs text-stone-600 dark:text-stone-400">
-            Task (optional)
-            <input
-              type="text"
-              value={labelDraft}
-              onChange={(e) => setLabelDraft(e.target.value)}
-              placeholder="What are you focusing on?"
-              className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-sm text-stone-900 dark:border-stone-600 dark:bg-stone-950/80 dark:text-stone-100"
-              disabled={isRunning}
-              maxLength={120}
-            />
-          </label>
-
-          <div className="mt-2 flex items-center justify-between">
-            <label className="inline-flex items-center gap-1.5 text-xs text-stone-600 dark:text-stone-400">
+          <div className="mt-4 space-y-3 rounded-xl border border-stone-200/80 bg-stone-50/70 p-3 dark:border-stone-700/80 dark:bg-stone-950/50">
+            <label className="block text-xs text-stone-600 dark:text-stone-400">
+              Focus length:{" "}
+              <span className="font-semibold text-stone-800 dark:text-stone-200">
+                {draftMinutes} min
+              </span>
+              <input
+                type="range"
+                min={MIN_MINUTES}
+                max={90}
+                value={draftMinutes}
+                onChange={(e) => setMinutesDraft(e.target.value)}
+                className="mt-2 w-full accent-rose-600"
+                disabled={isRunning}
+              />
+            </label>
+            <label className="block text-xs text-stone-600 dark:text-stone-400">
+              Task (optional)
+              <input
+                type="text"
+                value={labelDraft}
+                onChange={(e) => setLabelDraft(e.target.value)}
+                placeholder="What are you focusing on?"
+                className="mt-1 w-full rounded-md border border-stone-200 bg-white px-2 py-1.5 text-sm text-stone-900 dark:border-stone-600 dark:bg-stone-900 dark:text-stone-100"
+                disabled={isRunning}
+                maxLength={120}
+              />
+            </label>
+            <label className="inline-flex items-center gap-2 text-xs text-stone-600 dark:text-stone-400">
               <input
                 type="checkbox"
                 className="size-3.5 rounded border-stone-300 dark:border-stone-500"
                 checked={soundEnabled}
                 onChange={(e) => setSoundEnabled(e.target.checked)}
               />
-              Alert sound
+              Completion sound
             </label>
-            {isRunning ? (
-              <span className="text-xs text-stone-500 dark:text-stone-500">
-                {activeLabel}
-              </span>
-            ) : null}
           </div>
-
           <div className="mt-3 rounded-md border border-stone-200/80 bg-stone-50/70 px-2.5 py-2 text-xs text-stone-600 dark:border-stone-700/80 dark:bg-stone-950/50 dark:text-stone-300">
             <p>
               Today:{" "}
@@ -373,6 +429,9 @@ export function PomodoroTimer() {
                 </span>
               </p>
             ) : null}
+            <p className="mt-1 text-[11px] text-stone-500 dark:text-stone-400">
+              Synced to analytics after each completed session ({formatMinutes(totalForDisplay)}m target).
+            </p>
           </div>
         </div>,
         document.body,
