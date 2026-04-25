@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { clsx } from "clsx";
 import { createPortal } from "react-dom";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../convex/_generated/api";
 
 const STORAGE_KEY = "war-map-pomodoro-v1";
@@ -17,12 +18,14 @@ type SessionLog = {
 type Persisted = {
   minutesDraft: string;
   labelDraft: string;
+  projectDraftTitle: string;
   soundEnabled: boolean;
   running: {
     startedAt: number;
     endsAt: number;
     totalSeconds: number;
     label: string;
+    projectTitle: string;
   } | null;
   logs: SessionLog[];
 };
@@ -32,6 +35,7 @@ function loadPersisted(): Persisted {
     return {
       minutesDraft: "25",
       labelDraft: "",
+      projectDraftTitle: "",
       soundEnabled: true,
       running: null,
       logs: [],
@@ -43,6 +47,7 @@ function loadPersisted(): Persisted {
     return {
       minutesDraft: parsed.minutesDraft || "25",
       labelDraft: parsed.labelDraft || "",
+      projectDraftTitle: parsed.projectDraftTitle || "",
       soundEnabled: parsed.soundEnabled ?? true,
       running: parsed.running ?? null,
       logs: Array.isArray(parsed.logs) ? parsed.logs : [],
@@ -51,6 +56,7 @@ function loadPersisted(): Persisted {
     return {
       minutesDraft: "25",
       labelDraft: "",
+      projectDraftTitle: "",
       soundEnabled: true,
       running: null,
       logs: [],
@@ -113,10 +119,14 @@ function playDoneTone() {
 
 export function PomodoroTimer() {
   const logFocusSession = useMutation(api.focusAnalytics.logSession);
+  const navigate = useNavigate();
   const persisted = useMemo(loadPersisted, []);
+  const currentYear = new Date().getFullYear();
+  const plans = useQuery(api.plans.listInYear, { year: currentYear });
   const [open, setOpen] = useState(false);
   const [minutesDraft, setMinutesDraft] = useState(persisted.minutesDraft);
   const [labelDraft, setLabelDraft] = useState(persisted.labelDraft);
+  const [projectDraftTitle, setProjectDraftTitle] = useState(persisted.projectDraftTitle);
   const [soundEnabled, setSoundEnabled] = useState(persisted.soundEnabled);
   const [logs, setLogs] = useState<SessionLog[]>(persisted.logs);
   const [running, setRunning] = useState<Persisted["running"]>(persisted.running);
@@ -132,8 +142,8 @@ export function PomodoroTimer() {
   const completedRunRef = useRef<number | null>(null);
 
   useEffect(() => {
-    savePersisted({ minutesDraft, labelDraft, soundEnabled, running, logs });
-  }, [minutesDraft, labelDraft, soundEnabled, running, logs]);
+    savePersisted({ minutesDraft, labelDraft, projectDraftTitle, soundEnabled, running, logs });
+  }, [minutesDraft, labelDraft, projectDraftTitle, soundEnabled, running, logs]);
 
   useEffect(() => {
     if (running) {
@@ -166,6 +176,7 @@ export function PomodoroTimer() {
           completedAt,
           seconds: running.totalSeconds,
           label: running.label.trim(),
+          projectTitle: running.projectTitle.trim(),
         });
         if (soundEnabled) {
           playDoneTone();
@@ -254,6 +265,7 @@ export function PomodoroTimer() {
 
   const isRunning = Boolean(running);
   const activeLabel = running?.label.trim() || "Focus";
+  const activeProject = running?.projectTitle.trim() || projectDraftTitle.trim() || "No project";
   const draftMinutes = clampMinutes(Number.parseInt(minutesDraft, 10) || 25);
   const totalForDisplay = running ? running.totalSeconds : draftMinutes * 60;
   const displaySeconds = isRunning ? secondsLeft : totalForDisplay;
@@ -271,6 +283,7 @@ export function PomodoroTimer() {
       endsAt: now + totalSeconds * 1000,
       totalSeconds,
       label: labelDraft.trim(),
+      projectTitle: projectDraftTitle.trim() || "No project",
     });
   };
 
@@ -308,7 +321,7 @@ export function PomodoroTimer() {
               Focus
             </span>
             <span className="text-[11px] text-stone-500 dark:text-stone-400">
-              {activeLabel}
+              {activeLabel} - {activeProject}
             </span>
           </div>
           <div className="relative mt-3 flex items-center justify-center">
@@ -399,6 +412,22 @@ export function PomodoroTimer() {
                 maxLength={120}
               />
             </label>
+            <label className="block text-xs text-stone-600 dark:text-stone-400">
+              Project
+              <select
+                value={projectDraftTitle}
+                onChange={(e) => setProjectDraftTitle(e.target.value)}
+                className="mt-1 w-full rounded-md border border-stone-200 bg-white px-2 py-1.5 text-sm text-stone-900 dark:border-stone-600 dark:bg-stone-900 dark:text-stone-100"
+                disabled={isRunning}
+              >
+                <option value="">No project</option>
+                {(plans ?? []).map((p) => (
+                  <option key={p._id} value={p.title}>
+                    {p.title}
+                  </option>
+                ))}
+              </select>
+            </label>
             <label className="inline-flex items-center gap-2 text-xs text-stone-600 dark:text-stone-400">
               <input
                 type="checkbox"
@@ -432,6 +461,16 @@ export function PomodoroTimer() {
             <p className="mt-1 text-[11px] text-stone-500 dark:text-stone-400">
               Synced to analytics after each completed session ({formatMinutes(totalForDisplay)}m target).
             </p>
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                navigate("/analytics");
+              }}
+              className="mt-2 text-[11px] font-medium text-stone-600 underline underline-offset-2 hover:text-stone-900 dark:text-stone-300 dark:hover:text-stone-100"
+            >
+              View analytics
+            </button>
           </div>
         </div>,
         document.body,

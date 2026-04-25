@@ -57,5 +57,6 @@ export default defineSchema({
     completedAt: v.number(),
     seconds: v.number(),
     label: v.string(),
+    projectTitle: v.string(),
   }).index("by_user_and_completedAt", ["userId", "completedAt"]),
 });

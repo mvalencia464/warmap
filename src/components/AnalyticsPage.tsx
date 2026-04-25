@@ -89,14 +89,14 @@ export function AnalyticsPage() {
             </section>
 
             <section className="rounded-xl border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-900/40">
-              <h3 className="text-sm font-semibold text-stone-800 dark:text-stone-100">Top focus labels</h3>
-              {data.topFocus.length === 0 ? (
+              <h3 className="text-sm font-semibold text-stone-800 dark:text-stone-100">Top projects</h3>
+              {data.topByProject.length === 0 ? (
                 <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">No completed sessions yet.</p>
               ) : (
                 <ul className="mt-2 space-y-1.5">
-                  {data.topFocus.map((row) => (
-                    <li key={row.label} className="flex items-center justify-between text-sm">
-                      <span className="truncate text-stone-700 dark:text-stone-200">{row.label}</span>
+                  {data.topByProject.map((row) => (
+                    <li key={row.projectTitle} className="flex items-center justify-between text-sm">
+                      <span className="truncate text-stone-700 dark:text-stone-200">{row.projectTitle}</span>
                       <span className="text-stone-500 dark:text-stone-400">{row.minutes}m</span>
                     </li>
                   ))}

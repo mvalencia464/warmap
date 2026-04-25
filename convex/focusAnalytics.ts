@@ -31,8 +31,9 @@ export const logSession = mutation({
     completedAt: v.number(),
     seconds: v.number(),
     label: v.string(),
+    projectTitle: v.string(),
   },
-  handler: async (ctx, { completedAt, seconds, label }) => {
+  handler: async (ctx, { completedAt, seconds, label, projectTitle }) => {
     const identity = await requireAuth(ctx);
     const userId = identityKey(identity);
     if (!Number.isFinite(completedAt) || !Number.isFinite(seconds) || seconds <= 0) {
@@ -43,6 +44,7 @@ export const logSession = mutation({
       completedAt,
       seconds: Math.max(1, Math.round(seconds)),
       label: label.trim().slice(0, 120),
+      projectTitle: projectTitle.trim().slice(0, 120) || "No project",
     });
     return null;
   },
@@ -76,16 +78,16 @@ export const summary = query({
       dayMap.set(key, (dayMap.get(key) ?? 0) + row.seconds);
     }
 
-    const topLabels = new Map<string, number>();
+    const topProjects = new Map<string, number>();
     for (const row of monthRows) {
-      const key = row.label.trim() || "Unlabeled";
-      topLabels.set(key, (topLabels.get(key) ?? 0) + row.seconds);
+      const key = row.projectTitle.trim() || "No project";
+      topProjects.set(key, (topProjects.get(key) ?? 0) + row.seconds);
     }
-    const topFocus = Array.from(topLabels.entries())
+    const topByProject = Array.from(topProjects.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
-      .map(([label, seconds]) => ({
-        label,
+      .map(([projectTitle, seconds]) => ({
+        projectTitle,
         minutes: Math.round(seconds / 60),
       }));
 
@@ -106,7 +108,7 @@ export const summary = query({
         day,
         minutes: Math.round(seconds / 60),
       })),
-      topFocus,
+      topByProject,
     };
   },
 });
