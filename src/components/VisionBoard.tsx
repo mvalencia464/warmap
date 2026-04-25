@@ -209,6 +209,48 @@ export function VisionBoard() {
     });
   };
 
+  const goPrevLightbox = useCallback(() => {
+    if (!items || items.length < 2) return;
+    setPreviewIndex((i) => {
+      const nextIndex = i <= 0 ? items.length - 1 : i - 1;
+      const nextItem = items[nextIndex];
+      if (nextItem) {
+        setLightbox((prev) => (prev ? { ...prev, url: nextItem.publicUrl } : prev));
+      }
+      return nextIndex;
+    });
+  }, [items]);
+
+  const goNextLightbox = useCallback(() => {
+    if (!items || items.length < 2) return;
+    setPreviewIndex((i) => {
+      const nextIndex = i >= items.length - 1 ? 0 : i + 1;
+      const nextItem = items[nextIndex];
+      if (nextItem) {
+        setLightbox((prev) => (prev ? { ...prev, url: nextItem.publicUrl } : prev));
+      }
+      return nextIndex;
+    });
+  }, [items]);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setLightbox(null);
+        return;
+      }
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      if (e.key === "ArrowLeft") goPrevLightbox();
+      else goNextLightbox();
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [lightbox, goPrevLightbox, goNextLightbox]);
+
   return (
     <>
       <div

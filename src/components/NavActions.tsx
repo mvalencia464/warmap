@@ -1,5 +1,7 @@
 import { UserButton } from "@clerk/react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
+import { useHelp } from "../HelpContext";
 import { PomodoroTimer } from "./PomodoroTimer";
 
 function SunIcon({ className }: { className?: string }) {
@@ -37,8 +39,46 @@ function MoonIcon({ className }: { className?: string }) {
   );
 }
 
+function InfoIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 10v6M12 7h.01" />
+    </svg>
+  );
+}
+
+function SparkIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3z" />
+      <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z" />
+    </svg>
+  );
+}
+
 export function NavActions() {
   const { theme, toggleTheme } = useTheme();
+  const { setHelpOpen } = useHelp();
+  const navigate = useNavigate();
   const isDark = theme === "dark";
 
   return (
@@ -46,6 +86,16 @@ export function NavActions() {
       <PomodoroTimer />
       <UserButton appearance={{ elements: { userButtonBox: "ring-0" } }}>
         <UserButton.MenuItems>
+          <UserButton.Action
+            label="How it works + shortcuts (?)"
+            labelIcon={<InfoIcon className="h-4 w-4" />}
+            onClick={() => setHelpOpen(true)}
+          />
+          <UserButton.Action
+            label="Inspiration"
+            labelIcon={<SparkIcon className="h-4 w-4" />}
+            onClick={() => navigate("/inspiration")}
+          />
           <UserButton.Action
             label={isDark ? "Light mode" : "Dark mode"}
             labelIcon={
