@@ -43,4 +43,12 @@ export default defineSchema({
     mainObjectives: v.string(),
     notes: v.string(),
   }).index("by_ym", ["yearMonth"]),
+
+  /** Per-user vision board images (R2 public URLs, prefix `vision/` in bucket) */
+  visionImages: defineTable({
+    userId: v.string(),
+    r2Key: v.string(),
+    publicUrl: v.string(),
+    sortOrder: v.number(),
+  }).index("by_user", ["userId"]),
 });

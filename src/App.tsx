@@ -6,6 +6,7 @@ import { GlobalShortcuts } from "./components/GlobalShortcuts";
 import { HelpModal } from "./components/HelpModal";
 import { YearDashboard } from "./components/YearDashboard";
 import { MonthView } from "./components/MonthView";
+import { VisionBoard } from "./components/VisionBoard";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/" element={<YearDashboard />} />
             <Route path="/:year/:month" element={<MonthView />} />
           </Routes>
+          <VisionBoard />
         </BrowserRouter>
       </Authenticated>
     </HelpProvider>
