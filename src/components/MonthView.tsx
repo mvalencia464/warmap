@@ -33,6 +33,7 @@ import { clsx } from "clsx";
 import { dayCellDropId, endDropId } from "../lib/taskDndIds";
 import { DayEndDrop, SortableTaskRow, TaskDragPreview } from "./TaskDnDRow";
 import { getQuoteForDate } from "../lib/dailyQuote";
+import { getCurrentWeekTheme } from "../lib/weeklyTheme";
 import { useMatchMaxWidth } from "../hooks/useMatchMaxWidth";
 
 /** Must stay in sync with Tailwind `sm` (40rem) — below this we use the stacked month layout. */
@@ -104,6 +105,7 @@ export function MonthView() {
   const [composingDay, setComposingDay] = useState<string | null>(null);
   const [activeDrag, setActiveDrag] = useState<Doc<"tasks"> | null>(null);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
+  const [showWeeklyTheme, setShowWeeklyTheme] = useState(false);
 
   const onDragStart = useCallback(
     (e: DragStartEvent) => {
@@ -255,6 +257,18 @@ export function MonthView() {
       .sort((a, b) => a.startDate.localeCompare(b.startDate));
   }, [plans, year, month, valid]);
   const dailyQuote = useMemo(() => getQuoteForDate(new Date()), []);
+  const weeklyTheme = useMemo(() => getCurrentWeekTheme(new Date()), []);
+
+  useEffect(() => {
+    if (!showWeeklyTheme) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowWeeklyTheme(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showWeeklyTheme]);
 
   if (!valid) {
     return (
@@ -281,7 +295,8 @@ export function MonthView() {
 
   return (
     <Layout year={year} quote={dailyQuote}>
-      <div className="mb-4 sm:mb-5">
+      <div className="mb-4 flex items-start justify-between gap-3 sm:mb-5">
+        <div>
         <Link
           to={`/?year=${year}`}
           className="text-sm font-medium text-stone-400 transition hover:text-stone-600 dark:hover:text-stone-200"
@@ -291,6 +306,16 @@ export function MonthView() {
         <h2 className="text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl dark:text-stone-50">
           {monthLabel}
         </h2>
+        </div>
+        {weeklyTheme ? (
+          <button
+            type="button"
+            className="mt-0.5 text-xs font-medium tracking-wide text-stone-400 underline-offset-4 transition hover:text-stone-600 hover:underline dark:text-stone-500 dark:hover:text-stone-300"
+            onClick={() => setShowWeeklyTheme(true)}
+          >
+            Weekly
+          </button>
+        ) : null}
       </div>
 
       <DndContext
@@ -429,6 +454,50 @@ export function MonthView() {
           notes={monthMeta.notes}
         />
       </footer>
+
+      {showWeeklyTheme && weeklyTheme ? (
+        <div
+          className="fixed inset-0 z-50 flex items-end bg-stone-900/30 p-3 sm:items-center sm:justify-center sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="weekly-theme-title"
+          onClick={() => setShowWeeklyTheme(false)}
+        >
+          <div
+            className="w-full max-w-xl rounded-2xl border border-stone-200 bg-white p-4 shadow-xl sm:p-5 dark:border-stone-700 dark:bg-stone-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-2 flex items-start justify-between gap-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                Week {weeklyTheme.week}
+              </p>
+              <button
+                type="button"
+                className="text-xs font-medium text-stone-400 transition hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300"
+                onClick={() => setShowWeeklyTheme(false)}
+                aria-label="Close weekly theme"
+              >
+                Close
+              </button>
+            </div>
+            <h3
+              id="weekly-theme-title"
+              className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-50"
+            >
+              {weeklyTheme.title}
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
+              {weeklyTheme.idea}
+            </p>
+            <p className="mt-4 text-sm italic text-stone-600 dark:text-stone-400">
+              "{weeklyTheme.quote}"
+            </p>
+            <p className="mt-1 text-sm text-stone-500 dark:text-stone-500">
+              - {weeklyTheme.author}
+            </p>
+          </div>
+        </div>
+      ) : null}
     </Layout>
   );
 }
