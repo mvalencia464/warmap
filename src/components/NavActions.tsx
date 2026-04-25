@@ -1,8 +1,10 @@
 import { UserButton } from "@clerk/react";
+import { PomodoroTimer } from "./PomodoroTimer";
 
 export function NavActions() {
   return (
     <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+      <PomodoroTimer />
       <UserButton appearance={{ elements: { userButtonBox: "ring-0" } }} />
     </div>
   );
