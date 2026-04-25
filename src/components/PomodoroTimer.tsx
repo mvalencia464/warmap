@@ -216,10 +216,12 @@ export function PomodoroTimer() {
         ]);
         setPendingSync((prev) => [
           ...prev,
-          completedAt,
-          seconds: running.totalSeconds,
-          label: running.label.trim(),
-          projectTitle: running.projectTitle.trim(),
+          {
+            completedAt,
+            seconds: running.totalSeconds,
+            label: running.label.trim(),
+            projectTitle: running.projectTitle.trim(),
+          },
         ]);
         if (soundEnabled) {
           playDoneTone();
