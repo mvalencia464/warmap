@@ -1,5 +1,10 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import {
+  internalMutation,
+  internalQuery,
+  mutation,
+  query,
+} from "./_generated/server";
 import { requireAuth } from "./authHelpers";
 
 const MAX_VISION_IMAGES = 6;
@@ -54,14 +59,19 @@ export const add = mutation({
   },
 });
 
-export const remove = mutation({
+/**
+ * DB row removal — only for use from `visionR2.removeWithR2` (after S3 delete).
+ */
+export const removeRowInternal = internalMutation({
   args: { id: v.id("visionImages") },
   async handler(ctx, { id }) {
-    const identity = await requireAuth(ctx);
-    const row = await ctx.db.get(id);
-    if (!row || row.userId !== identity.subject) {
-      return;
-    }
     await ctx.db.delete(id);
+  },
+});
+
+export const getRowInternal = internalQuery({
+  args: { id: v.id("visionImages") },
+  async handler(ctx, { id }) {
+    return await ctx.db.get(id);
   },
 });

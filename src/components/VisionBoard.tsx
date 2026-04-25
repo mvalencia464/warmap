@@ -10,7 +10,7 @@ type Lightbox = { url: string; step: number };
 export function VisionBoard() {
   const items = useQuery(api.vision.list, {});
   const addImage = useMutation(api.vision.add);
-  const removeImage = useMutation(api.vision.remove);
+  const removeWithR2 = useAction(api.visionR2.removeWithR2);
   const prepareUpload = useAction(api.visionR2.prepareUpload);
 
   const [open, setOpen] = useState(false);
@@ -180,7 +180,14 @@ export function VisionBoard() {
                     <button
                       type="button"
                       className="shrink-0 rounded-md px-2 py-1.5 text-xs text-stone-400 transition hover:bg-rose-50 hover:text-rose-600"
-                      onClick={() => void removeImage({ id: row._id })}
+                      onClick={async () => {
+                        setErr("");
+                        try {
+                          await removeWithR2({ id: row._id });
+                        } catch (e) {
+                          setErr(e instanceof Error ? e.message : "Remove failed");
+                        }
+                      }}
                     >
                       Remove
                     </button>

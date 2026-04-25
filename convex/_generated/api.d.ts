@@ -13,6 +13,8 @@ import type * as categories from "../categories.js";
 import type * as monthNotes from "../monthNotes.js";
 import type * as plans from "../plans.js";
 import type * as tasks from "../tasks.js";
+import type * as vision from "../vision.js";
+import type * as visionR2 from "../visionR2.js";
 
 import type {
   ApiFromModules,
@@ -26,6 +28,8 @@ declare const fullApi: ApiFromModules<{
   monthNotes: typeof monthNotes;
   plans: typeof plans;
   tasks: typeof tasks;
+  vision: typeof vision;
+  visionR2: typeof visionR2;
 }>;
 
 /**
