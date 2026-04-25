@@ -18,6 +18,14 @@ function isoDay(ts: number): string {
   return `${y}-${m}-${day}`;
 }
 
+function identityKey(identity: { tokenIdentifier?: string; subject?: string }): string {
+  const key = identity.tokenIdentifier ?? identity.subject;
+  if (!key) {
+    throw new Error("Missing authenticated identity key");
+  }
+  return key;
+}
+
 export const logSession = mutation({
   args: {
     completedAt: v.number(),
@@ -26,7 +34,7 @@ export const logSession = mutation({
   },
   handler: async (ctx, { completedAt, seconds, label }) => {
     const identity = await requireAuth(ctx);
-    const userId = identity.tokenIdentifier;
+    const userId = identityKey(identity);
     if (!Number.isFinite(completedAt) || !Number.isFinite(seconds) || seconds <= 0) {
       return null;
     }
@@ -44,7 +52,7 @@ export const summary = query({
   args: {},
   handler: async (ctx) => {
     const identity = await requireAuth(ctx);
-    const userId = identity.tokenIdentifier;
+    const userId = identityKey(identity);
     const now = Date.now();
     const todayStart = startOfDay(now);
     const weekStart = todayStart - 6 * DAY_MS;
