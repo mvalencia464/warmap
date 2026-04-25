@@ -64,7 +64,7 @@ export function PlanRangeModal({
 
   return (
     <ModalShell title="New project range" onBackdropMouseDown={onClose}>
-      <p className="mt-0.5 text-sm text-stone-500">
+      <p className="mt-0.5 text-sm text-stone-500 dark:text-stone-400">
         Shown on the year grid and in the Key. Color is auto-assigned and can
         be changed later in the Key.
       </p>
@@ -72,10 +72,10 @@ export function PlanRangeModal({
         className="mt-4 flex flex-col gap-3"
         onSubmit={(e) => void handleSubmit(e)}
       >
-        <label className="block text-sm text-stone-600">
+        <label className="block text-sm text-stone-600 dark:text-stone-400">
           Title
           <input
-            className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50/50 px-3 py-2 text-stone-900"
+            className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50/50 px-3 py-2 text-stone-900 dark:border-stone-600 dark:bg-stone-950/50 dark:text-stone-100"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Q2 launch, vacation, course…"
@@ -112,13 +112,15 @@ function ModalShell({
 }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/20 p-4 backdrop-blur-[2px]"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/20 p-4 backdrop-blur-[2px] dark:bg-black/50"
       role="dialog"
       aria-modal
       onMouseDown={(e) => e.target === e.currentTarget && onBackdropMouseDown()}
     >
-      <div className="w-full max-w-md rounded-2xl border border-stone-200 bg-white p-5 shadow-lg">
-        <h3 className="text-base font-semibold text-stone-900">{title}</h3>
+      <div className="w-full max-w-md rounded-2xl border border-stone-200 bg-white p-5 shadow-lg dark:border-stone-600/80 dark:bg-stone-900">
+        <h3 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+          {title}
+        </h3>
         {children}
       </div>
     </div>
@@ -135,11 +137,11 @@ function DateField({
   onChange: (s: string) => void;
 }) {
   return (
-    <label className="text-sm text-stone-600">
+    <label className="text-sm text-stone-600 dark:text-stone-400">
       {label}
       <input
         type="date"
-        className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50/50 px-2 py-2 text-stone-900"
+        className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50/50 px-2 py-2 text-stone-900 dark:border-stone-600 dark:bg-stone-950/50 dark:text-stone-100"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -161,14 +163,14 @@ function Actions({
       <button
         type="button"
         onClick={onClose}
-        className="rounded-lg px-3 py-1.5 text-sm text-stone-500 hover:bg-stone-100"
+        className="rounded-lg px-3 py-1.5 text-sm text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800/80"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={saving}
-        className="rounded-lg bg-stone-800 px-4 py-1.5 text-sm font-medium text-white hover:bg-stone-700 disabled:opacity-50"
+        className="rounded-lg bg-stone-800 px-4 py-1.5 text-sm font-medium text-white hover:bg-stone-700 disabled:opacity-50 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-100"
       >
         {saving ? "Saving…" : submitLabel}
       </button>

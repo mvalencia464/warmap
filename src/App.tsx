@@ -12,15 +12,15 @@ function App() {
   return (
     <HelpProvider>
       <AuthLoading>
-        <div className="flex min-h-svh items-center justify-center bg-stone-50 text-stone-600">
+        <div className="flex min-h-svh items-center justify-center bg-stone-50 text-stone-600 dark:bg-stone-950 dark:text-stone-400">
           <p className="text-sm">Loading…</p>
         </div>
       </AuthLoading>
       <Unauthenticated>
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-stone-50 p-6 text-stone-800">
+        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-stone-50 p-6 text-stone-800 dark:bg-stone-950 dark:text-stone-200">
           <div className="text-center">
             <h1 className="text-2xl font-semibold tracking-tight">War map</h1>
-            <p className="mt-2 text-sm text-stone-500">
+            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
               Sign in to open your plan and tasks.
             </p>
           </div>

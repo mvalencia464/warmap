@@ -38,26 +38,26 @@ export function MiniMonth({
   return (
     <div className="flex min-w-0 flex-col gap-1.5" dir="ltr">
       <div className="flex items-baseline justify-between gap-2 px-0.5">
-        <h2 className="text-sm font-medium tracking-tight text-stone-700">
+        <h2 className="text-sm font-medium tracking-tight text-stone-700 dark:text-stone-200">
           {label}
         </h2>
         <Link
           to={`/${year}/${String(month).padStart(2, "0")}`}
           onClick={(e) => e.stopPropagation()}
           onPointerDown={(e) => e.stopPropagation()}
-          className="text-xs font-medium text-stone-400 transition hover:text-stone-700"
+          className="text-xs font-medium text-stone-400 transition hover:text-stone-700 dark:hover:text-stone-200"
         >
           open
         </Link>
       </div>
-      <div className="grid grid-cols-7 text-center text-[0.6rem] font-medium uppercase tracking-wider text-stone-400">
+      <div className="grid grid-cols-7 text-center text-[0.6rem] font-medium uppercase tracking-wider text-stone-400 dark:text-stone-500">
         {weekday.map((d) => (
           <div key={d} className="py-0.5">
             {d}
           </div>
         ))}
       </div>
-      <div className="grid min-w-0 auto-rows-min grid-cols-7 select-none border-t border-l border-stone-200/50">
+      <div className="grid min-w-0 auto-rows-min grid-cols-7 select-none border-t border-l border-stone-200/50 dark:border-stone-700/50">
         {days.map((cell) => {
           const pfd = planHintsForDay(cell.iso, plans, categoryById);
           const isToday = isTodayStr(cell.iso);
@@ -75,10 +75,10 @@ export function MiniMonth({
               key={cell.iso}
               className={clsx(
                 "flex min-h-7 flex-col justify-between p-0.5 text-left text-[0.7rem] font-medium tabular-nums",
-                "border-b border-r border-stone-200/50",
+                "border-b border-r border-stone-200/50 dark:border-stone-700/50",
                 cell.inMonth
-                  ? "bg-white/90"
-                  : "bg-stone-100/80 text-stone-300",
+                  ? "bg-white/90 dark:bg-stone-900/50"
+                  : "bg-stone-100/80 text-stone-300 dark:bg-stone-900/20 dark:text-stone-500",
                 cell.inMonth &&
                   pfd.length > 0 &&
                   primary &&

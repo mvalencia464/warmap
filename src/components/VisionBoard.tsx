@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, useId } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useAction, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { clsx } from "clsx";
@@ -152,15 +152,37 @@ export function VisionBoard() {
     [addImage, prepareUpload, items],
   );
 
-  const goPrev = () => {
+  const goPrev = useCallback(() => {
     if (!items || items.length < 2) return;
     setPreviewIndex((i) => (i <= 0 ? items.length - 1 : i - 1));
-  };
+  }, [items]);
 
-  const goNext = () => {
+  const goNext = useCallback(() => {
     if (!items || items.length < 2) return;
     setPreviewIndex((i) => (i >= items.length - 1 ? 0 : i + 1));
-  };
+  }, [items]);
+
+  useEffect(() => {
+    if (!open || lightbox) return;
+    if (!items || items.length < 2) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target;
+      if (t instanceof HTMLElement) {
+        if (
+          t.closest("input, textarea, [contenteditable='true']")
+        ) {
+          return;
+        }
+      }
+      e.preventDefault();
+      if (e.key === "ArrowLeft") goPrev();
+      else goNext();
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [open, lightbox, items, goPrev, goNext]);
 
   const canAdd =
     items !== undefined && !uploading && count < 6;
@@ -199,7 +221,7 @@ export function VisionBoard() {
       >
         <button
           type="button"
-          className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border border-stone-200/90 bg-white/95 shadow-md ring-1 ring-stone-900/5 transition hover:border-stone-300 hover:shadow-lg"
+          className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border border-stone-200/90 bg-white/95 shadow-md ring-1 ring-stone-900/5 transition hover:border-stone-300 hover:shadow-lg dark:border-stone-600/90 dark:bg-stone-800/95 dark:ring-stone-950/30 dark:hover:border-stone-500"
           aria-expanded={open}
           aria-controls={open ? panelId : undefined}
           aria-label={
@@ -231,7 +253,10 @@ export function VisionBoard() {
               ) : null}
             </>
           ) : (
-            <span className="text-lg font-light leading-none text-stone-500" aria-hidden>
+            <span
+              className="text-lg font-light leading-none text-stone-500 dark:text-stone-400"
+              aria-hidden
+            >
               <PlusIcon className="h-5 w-5" />
             </span>
           )}
@@ -240,16 +265,16 @@ export function VisionBoard() {
         {open && (
           <div
             id={panelId}
-            className="absolute bottom-full left-0 mb-2 flex h-[min(68vh,28rem)] w-[min(calc(100vw-1.25rem),20rem)] flex-col overflow-hidden rounded-2xl border border-stone-200/90 bg-stone-100/95 shadow-xl ring-1 ring-stone-900/5"
+            className="absolute bottom-full left-0 mb-2 flex h-[min(68vh,28rem)] w-[min(calc(100vw-1.25rem),20rem)] flex-col overflow-hidden rounded-2xl border border-stone-200/90 bg-stone-100/95 shadow-xl ring-1 ring-stone-900/5 dark:border-stone-700/90 dark:bg-stone-900/95 dark:ring-stone-950/50"
             data-skip-global-shortcuts
           >
             {err ? (
               <div
-                className="border-b border-rose-200/80 bg-rose-50/95 px-3 py-1.5"
+                className="border-b border-rose-200/80 bg-rose-50/95 px-3 py-1.5 dark:border-rose-900/50 dark:bg-rose-950/40"
                 title={err}
                 role="status"
               >
-                <span className="text-[0.7rem] leading-tight text-rose-600">
+                <span className="text-[0.7rem] leading-tight text-rose-600 dark:text-rose-400">
                   {err}
                 </span>
               </div>
@@ -277,13 +302,15 @@ export function VisionBoard() {
                 "absolute right-2.5 top-2.5 z-20 flex h-10 w-10 items-center justify-center rounded-full",
                 "border border-stone-200/90 bg-white/95 text-stone-600 shadow-md ring-1 ring-stone-900/5 transition",
                 "hover:border-stone-300 hover:text-stone-900",
+                "dark:border-stone-600/90 dark:bg-stone-800/95 dark:text-stone-200 dark:ring-stone-950/30",
+                "dark:hover:border-stone-500 dark:hover:text-white",
                 "disabled:cursor-not-allowed disabled:opacity-40",
               )}
               aria-label="Add image"
             >
               {uploading ? (
                 <span
-                  className="h-4 w-4 animate-spin rounded-full border-2 border-stone-300 border-t-stone-600"
+                  className="h-4 w-4 animate-spin rounded-full border-2 border-stone-300 border-t-stone-600 dark:border-stone-600 dark:border-t-stone-200"
                   aria-hidden
                 />
               ) : (
@@ -303,7 +330,7 @@ export function VisionBoard() {
                       setErr(e instanceof Error ? e.message : "Remove failed");
                     }
                   }}
-                  className="absolute left-2.5 top-2.5 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-stone-200/90 bg-white/95 text-stone-500 shadow-md ring-1 ring-stone-900/5 transition hover:border-rose-200/90 hover:text-rose-600"
+                  className="absolute left-2.5 top-2.5 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-stone-200/90 bg-white/95 text-stone-500 shadow-md ring-1 ring-stone-900/5 transition hover:border-rose-200/90 hover:text-rose-600 dark:border-stone-600/90 dark:bg-stone-800/95 dark:text-stone-400 dark:ring-stone-950/30 dark:hover:border-rose-800/80 dark:hover:text-rose-400"
                   aria-label="Remove this image"
                 >
                   <TrashIcon className="h-4 w-4" />
@@ -315,7 +342,7 @@ export function VisionBoard() {
                       <button
                         type="button"
                         onClick={goPrev}
-                        className="absolute left-1.5 top-1/2 z-10 -translate-y-1/2 rounded-full bg-stone-900/35 p-1.5 text-white shadow-sm backdrop-blur-sm transition hover:bg-stone-900/55"
+                        className="absolute left-1.5 top-1/2 z-10 -translate-y-1/2 rounded-full bg-stone-900/35 p-1.5 text-white shadow-sm backdrop-blur-sm transition hover:bg-stone-900/55 dark:bg-stone-950/60 dark:hover:bg-stone-900/80"
                         aria-label="Previous image"
                       >
                         <ChevronIcon direction="left" className="h-5 w-5" />
@@ -323,7 +350,7 @@ export function VisionBoard() {
                       <button
                         type="button"
                         onClick={goNext}
-                        className="absolute right-1.5 top-1/2 z-10 -translate-y-1/2 rounded-full bg-stone-900/35 p-1.5 text-white shadow-sm backdrop-blur-sm transition hover:bg-stone-900/55"
+                        className="absolute right-1.5 top-1/2 z-10 -translate-y-1/2 rounded-full bg-stone-900/35 p-1.5 text-white shadow-sm backdrop-blur-sm transition hover:bg-stone-900/55 dark:bg-stone-950/60 dark:hover:bg-stone-900/80"
                         aria-label="Next image"
                       >
                         <ChevronIcon direction="right" className="h-5 w-5" />
@@ -339,7 +366,7 @@ export function VisionBoard() {
                     <button
                       type="button"
                       onClick={() => setLightbox({ url: current.publicUrl, step: 0 })}
-                      className="group relative flex min-h-0 flex-1 cursor-zoom-in items-center justify-center overflow-hidden rounded-xl bg-stone-200/50"
+                      className="group relative flex min-h-0 flex-1 cursor-zoom-in items-center justify-center overflow-hidden rounded-xl bg-stone-200/50 dark:bg-stone-800/60"
                       aria-label="View full size"
                     >
                       <img
@@ -351,7 +378,7 @@ export function VisionBoard() {
                         draggable={false}
                       />
                       <span
-                        className="pointer-events-none absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-full border border-stone-200/80 bg-white/90 text-stone-500 shadow-sm opacity-75 transition group-hover:opacity-100"
+                        className="pointer-events-none absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-full border border-stone-200/80 bg-white/90 text-stone-500 shadow-sm opacity-75 transition group-hover:opacity-100 dark:border-stone-600/80 dark:bg-stone-800/90 dark:text-stone-300"
                         aria-hidden
                       >
                         <ExpandIcon className="h-3.5 w-3.5" />
@@ -374,8 +401,8 @@ export function VisionBoard() {
                               className={clsx(
                                 "h-1.5 rounded-full transition",
                                 active
-                                  ? "w-3.5 bg-stone-700"
-                                  : "w-1.5 bg-stone-400/70 hover:bg-stone-500",
+                                  ? "w-3.5 bg-stone-700 dark:bg-stone-200"
+                                  : "w-1.5 bg-stone-400/70 hover:bg-stone-500 dark:bg-stone-500/50 dark:hover:bg-stone-400/70",
                               )}
                               aria-label={`Image ${i + 1} of ${items.length}`}
                               aria-current={active ? "true" : undefined}
@@ -389,12 +416,12 @@ export function VisionBoard() {
               </>
             ) : loadingList ? (
               <div
-                className="m-2 mt-14 min-h-48 flex-1 animate-pulse rounded-xl bg-stone-200/70"
+                className="m-2 mt-14 min-h-48 flex-1 animate-pulse rounded-xl bg-stone-200/70 dark:bg-stone-800/50"
                 aria-hidden
               />
             ) : (
               <div
-                className="m-2 mt-14 min-h-48 flex-1 rounded-xl bg-stone-200/35"
+                className="m-2 mt-14 min-h-48 flex-1 rounded-xl bg-stone-200/35 dark:bg-stone-800/30"
                 aria-hidden
               />
             )}

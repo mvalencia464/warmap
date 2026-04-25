@@ -259,7 +259,7 @@ export function MonthView() {
   if (!valid) {
     return (
       <Layout year={new Date().getFullYear()} quote={dailyQuote}>
-        <p className="text-sm text-stone-500">Invalid month</p>
+        <p className="text-sm text-stone-500 dark:text-stone-400">Invalid month</p>
       </Layout>
     );
   }
@@ -274,7 +274,7 @@ export function MonthView() {
   ) {
     return (
       <Layout year={year} quote={dailyQuote}>
-        <p className="text-sm text-stone-500">Loading…</p>
+        <p className="text-sm text-stone-500 dark:text-stone-400">Loading…</p>
       </Layout>
     );
   }
@@ -284,11 +284,11 @@ export function MonthView() {
       <div className="mb-4 sm:mb-5">
         <Link
           to={`/?year=${year}`}
-          className="text-sm font-medium text-stone-400 transition hover:text-stone-600"
+          className="text-sm font-medium text-stone-400 transition hover:text-stone-600 dark:hover:text-stone-200"
         >
           ← {year} overview
         </Link>
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+        <h2 className="text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl dark:text-stone-50">
           {monthLabel}
         </h2>
       </div>
@@ -331,13 +331,13 @@ export function MonthView() {
             </div>
           ) : (
             <div>
-              <div className="mb-2 grid min-w-0 grid-cols-7 border-b border-stone-200/80 pb-1 text-center text-xs font-medium uppercase tracking-wider text-stone-400">
+              <div className="mb-2 grid min-w-0 grid-cols-7 border-b border-stone-200/80 pb-1 text-center text-xs font-medium uppercase tracking-wider text-stone-400 dark:border-stone-700/80 dark:text-stone-500">
                 {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
                   <div key={d}>{d}</div>
                 ))}
               </div>
 
-              <div className="grid w-full min-w-0 auto-rows-min grid-cols-7 overflow-hidden rounded-md border border-stone-200/50">
+              <div className="grid w-full min-w-0 auto-rows-min grid-cols-7 overflow-hidden rounded-md border border-stone-200/50 dark:border-stone-700/50">
                 {monthGridCells(year, month).map((cell) => (
                   <DayColumn
                     key={cell.iso}
@@ -377,21 +377,21 @@ export function MonthView() {
       </DndContext>
 
       <section
-        className="mt-6 border-t border-stone-200 pt-5"
+        className="mt-6 border-t border-stone-200 pt-5 dark:border-stone-700/80"
         aria-labelledby="month-projects-legend"
       >
         <h3
           id="month-projects-legend"
-          className="text-xs font-semibold uppercase tracking-widest text-stone-400"
+          className="text-xs font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500"
         >
           Project ranges (this month)
         </h3>
         {monthProjectLegend.length === 0 ? (
-          <p className="mt-1.5 text-sm text-stone-500">
+          <p className="mt-1.5 text-sm text-stone-500 dark:text-stone-400">
             No project ranges in this month.
           </p>
         ) : (
-          <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-2.5 text-sm text-stone-600">
+          <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-2.5 text-sm text-stone-600 dark:text-stone-300">
             {monthProjectLegend.map((p) => {
               const c = categoryById.get(p.categoryId);
               const k: ColorKey =
@@ -400,14 +400,16 @@ export function MonthView() {
                 <li key={p._id} className="flex min-w-0 max-w-full items-center gap-2">
                   <span
                     className={clsx(
-                      "h-3 w-3 shrink-0 rounded-sm border border-stone-900/10 shadow-sm",
+                      "h-3 w-3 shrink-0 rounded-sm border border-stone-900/10 shadow-sm dark:border-stone-100/20",
                       keySwatchClass(k),
                     )}
                     aria-hidden
                   />
-                  <span className="min-w-0 truncate">
-                    <span className="font-medium text-stone-800">{p.title}</span>
-                    <span className="ml-1.5 text-stone-500">
+                    <span className="min-w-0 truncate">
+                    <span className="font-medium text-stone-800 dark:text-stone-200">
+                      {p.title}
+                    </span>
+                    <span className="ml-1.5 text-stone-500 dark:text-stone-500">
                       {formatRangeLabel(p.startDate, p.endDate)}
                     </span>
                   </span>
@@ -418,7 +420,7 @@ export function MonthView() {
         )}
       </section>
 
-      <footer className="mt-8 grid gap-6 border-t border-stone-200 pt-8 sm:grid-cols-2">
+      <footer className="mt-8 grid gap-6 border-t border-stone-200 pt-8 sm:grid-cols-2 dark:border-stone-700/80">
         <MonthNotes
           key={`${year}-${month}`}
           year={year}
@@ -537,7 +539,7 @@ function DayColumn({
           "min-h-10",
           isToday
             && "z-1 border border-amber-400/80 bg-amber-50/90 ring-2 ring-inset ring-amber-500/70",
-          !isToday && "bg-stone-100/90",
+          !isToday && "bg-stone-100/90 dark:bg-stone-900/40",
         )}
         title={isToday ? "Today" : undefined}
         aria-label={isToday ? "Today (in adjacent month)" : undefined}
@@ -556,11 +558,11 @@ function DayColumn({
       className={clsx(
         "group/d relative flex h-full min-h-0 min-w-0 flex-col p-0",
         stacked
-          ? "overflow-hidden rounded-2xl border border-stone-200/60 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
-          : "border-b border-r border-stone-200/60",
+          ? "overflow-hidden rounded-2xl border border-stone-200/60 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)] dark:border-stone-600/50 dark:bg-stone-900/30 dark:shadow-[0_1px_3px_rgba(0,0,0,0.25)]"
+          : "border-b border-r border-stone-200/60 dark:border-stone-600/50",
         isToday
           && "z-1 bg-amber-50/55 ring-2 ring-inset ring-amber-500/80 shadow-[inset_0_0_0_1px_rgba(251,191,36,0.2)]",
-        !isToday && (firstPlanKey ? monthPlanHintClass(firstPlanKey) : "bg-white"),
+        !isToday && (firstPlanKey ? monthPlanHintClass(firstPlanKey) : "bg-white dark:bg-stone-900/30"),
         isDropTarget
           && "z-2 scale-[1.01] ring-2 ring-sky-500/45 ring-inset",
       )}
@@ -574,7 +576,11 @@ function DayColumn({
             ? "px-3.5 py-2.5 text-sm font-semibold tabular-nums"
             : "px-1.5 py-0.5 text-[0.65rem] font-medium tabular-nums",
           isToday && (stacked ? "bg-amber-100/50" : "bg-amber-100/40"),
-          isToday ? "text-amber-950" : stacked ? "text-stone-500" : "text-stone-400",
+          isToday
+            ? "text-amber-950"
+            : stacked
+              ? "text-stone-500 dark:text-stone-400"
+              : "text-stone-400 dark:text-stone-500",
         )}
       >
         {isToday ? (
@@ -597,7 +603,9 @@ function DayColumn({
             </span>
           </>
         ) : stacked ? (
-          <span className="text-lg text-stone-500 tabular-nums">{dayNum}</span>
+          <span className="text-lg text-stone-500 tabular-nums dark:text-stone-400">
+            {dayNum}
+          </span>
         ) : (
           dayNum
         )}
@@ -610,7 +618,7 @@ function DayColumn({
       >
         {empty && (
           <div
-            className="pointer-events-none absolute right-0.5 bottom-1.5 z-1 text-lg font-extralight text-stone-200 opacity-0 transition group-hover/d:opacity-100"
+            className="pointer-events-none absolute right-0.5 bottom-1.5 z-1 text-lg font-extralight text-stone-200 opacity-0 transition group-hover/d:opacity-100 dark:text-stone-600"
             aria-hidden
           >
             +
@@ -662,7 +670,7 @@ function DayColumn({
               <input
                 ref={inputRef}
                 className={clsx(
-                  "w-full min-w-0 border-0 border-t border-stone-200/80 bg-amber-50/50 text-stone-800 focus:ring-0",
+                  "w-full min-w-0 border-0 border-t border-stone-200/80 bg-amber-50/50 text-stone-800 focus:ring-0 dark:border-stone-600/50 dark:bg-amber-950/20 dark:text-stone-100",
                   stacked
                     ? "h-11 px-3 py-2 text-sm"
                     : "h-7 px-2 text-[0.7rem] sm:text-xs",
@@ -711,11 +719,11 @@ function MonthNotes({
   return (
     <>
       <div>
-        <h3 className="text-xs font-semibold uppercase tracking-widest text-stone-400">
+        <h3 className="text-xs font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
           Main objectives
         </h3>
         <textarea
-          className="mt-1 min-h-24 w-full rounded-xl border border-stone-200 bg-stone-50/50 p-3 text-sm text-stone-800"
+          className="mt-1 min-h-24 w-full rounded-xl border border-stone-200 bg-stone-50/50 p-3 text-sm text-stone-800 dark:border-stone-600 dark:bg-stone-900/40 dark:text-stone-200"
           value={m}
           onChange={(e) => setM(e.target.value)}
           onBlur={async () => {
@@ -726,11 +734,11 @@ function MonthNotes({
         />
       </div>
       <div>
-        <h3 className="text-xs font-semibold uppercase tracking-widest text-stone-400">
+        <h3 className="text-xs font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
           Notes
         </h3>
         <textarea
-          className="mt-1 min-h-24 w-full rounded-xl border border-stone-200 bg-stone-50/50 p-3 text-sm text-stone-800"
+          className="mt-1 min-h-24 w-full rounded-xl border border-stone-200 bg-stone-50/50 p-3 text-sm text-stone-800 dark:border-stone-600 dark:bg-stone-900/40 dark:text-stone-200"
           value={n}
           onChange={(e) => setN(e.target.value)}
           onBlur={async () => {

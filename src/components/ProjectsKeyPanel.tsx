@@ -113,7 +113,7 @@ function KeyPlanRow({
             className="shrink-0"
           />
           <input
-            className="min-w-0 flex-1 rounded-md border border-stone-200 bg-white px-2 py-1 text-sm font-medium text-stone-800"
+            className="min-w-0 flex-1 rounded-md border border-stone-200 bg-white px-2 py-1 text-sm font-medium text-stone-800 dark:border-stone-600 dark:bg-stone-900/60 dark:text-stone-100"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onBlur={onTitleBlur}
@@ -125,7 +125,7 @@ function KeyPlanRow({
         <div className="grid min-w-0 grid-cols-1 gap-1.5 sm:grid-cols-2">
           <input
             type="date"
-            className="w-full min-w-0 rounded-md border border-stone-200 bg-stone-50/50 px-1.5 py-1 text-xs text-stone-900"
+            className="w-full min-w-0 rounded-md border border-stone-200 bg-stone-50/50 px-1.5 py-1 text-xs text-stone-900 dark:border-stone-600 dark:bg-stone-950/50 dark:text-stone-100"
             value={start}
             onChange={(e) => setStart(e.target.value)}
             onBlur={onDateBlur}
@@ -134,7 +134,7 @@ function KeyPlanRow({
           />
           <input
             type="date"
-            className="w-full min-w-0 rounded-md border border-stone-200 bg-stone-50/50 px-1.5 py-1 text-xs text-stone-900"
+            className="w-full min-w-0 rounded-md border border-stone-200 bg-stone-50/50 px-1.5 py-1 text-xs text-stone-900 dark:border-stone-600 dark:bg-stone-950/50 dark:text-stone-100"
             value={end}
             onChange={(e) => setEnd(e.target.value)}
             onBlur={onDateBlur}
@@ -143,7 +143,7 @@ function KeyPlanRow({
           />
         </div>
         <p
-          className="text-xs tabular-nums text-stone-400"
+          className="text-xs tabular-nums text-stone-400 dark:text-stone-500"
           title="Same range, compact label"
         >
           {range}
@@ -164,7 +164,7 @@ function KeyDeleteButton({ plan }: { plan: Plan }) {
   return (
     <button
       type="button"
-      className="cursor-pointer rounded px-1.5 py-1 text-stone-300 transition hover:bg-stone-100 hover:text-rose-600"
+      className="cursor-pointer rounded px-1.5 py-1 text-stone-300 transition hover:bg-stone-100 hover:text-rose-600 dark:text-stone-500 dark:hover:bg-stone-800/80"
       title="Delete this range"
       aria-label={`Delete “${plan.title}”`}
       onClick={async (e) => {
@@ -199,7 +199,7 @@ export function ProjectsKeyPanel({
 
   return (
     <section
-      className="w-full shrink-0 border border-stone-200 bg-white shadow-sm xl:sticky xl:top-4 xl:max-w-xs xl:self-start"
+      className="w-full shrink-0 border border-stone-200 bg-white shadow-sm dark:border-stone-600/60 dark:bg-stone-900/50 xl:sticky xl:top-4 xl:max-w-xs xl:self-start"
       aria-labelledby="project-key-heading"
     >
       <h2
@@ -209,12 +209,12 @@ export function ProjectsKeyPanel({
         Key
       </h2>
       {rows.length === 0 ? (
-        <p className="p-3 text-sm text-stone-500">
+        <p className="p-3 text-sm text-stone-500 dark:text-stone-400">
           No project ranges in {year} yet. Add one with + date range or by painting
           a range on a month.
         </p>
       ) : (
-        <ul className="max-h-[min(60vh,28rem)] divide-y divide-stone-200 overflow-y-auto text-sm">
+        <ul className="max-h-[min(60vh,28rem)] divide-y divide-stone-200 overflow-y-auto text-sm dark:divide-stone-600/50">
           {rows.map(({ plan, range }) => (
             <KeyPlanRow
               key={plan._id}

@@ -30,11 +30,15 @@ function Kb({ k }: { k: string }) {
     && k !== "PLAN"
     && k !== "2 clicks"
   ) {
-    return <span className="whitespace-nowrap text-stone-500">{k}</span>;
+    return (
+      <span className="whitespace-nowrap text-stone-500 dark:text-stone-400">
+        {k}
+      </span>
+    );
   }
   return (
     <kbd
-      className="inline-block min-w-[1.1rem] rounded border border-stone-300/90 bg-stone-100/90 px-1.5 py-0.5 text-center font-mono text-xs font-medium text-stone-800 shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)]"
+      className="inline-block min-w-[1.1rem] rounded border border-stone-300/90 bg-stone-100/90 px-1.5 py-0.5 text-center font-mono text-xs font-medium text-stone-800 shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)] dark:border-stone-600/90 dark:bg-stone-800/90 dark:text-stone-200 dark:shadow-[inset_0_-1px_0_0_rgba(255,255,255,0.04)]"
     >
       {k}
     </kbd>
@@ -62,7 +66,7 @@ export function HelpModal() {
 
   return (
     <div
-      className="fixed inset-0 z-220 flex items-end justify-center bg-stone-900/25 p-4 pt-20 backdrop-blur-[2px] sm:items-center sm:pt-4"
+      className="fixed inset-0 z-220 flex items-end justify-center bg-stone-900/25 p-4 pt-20 backdrop-blur-[2px] sm:items-center sm:pt-4 dark:bg-black/50"
       role="presentation"
       onMouseDown={(e) => e.target === e.currentTarget && setHelpOpen(false)}
     >
@@ -70,19 +74,21 @@ export function HelpModal() {
         role="dialog"
         aria-modal
         aria-labelledby={titleId}
-        className="w-full max-w-md rounded-2xl border border-stone-200 bg-white p-0 shadow-2xl"
+        className="w-full max-w-md rounded-2xl border border-stone-200 bg-white p-0 shadow-2xl dark:border-stone-600/80 dark:bg-stone-900 dark:shadow-black/50"
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <div className="border-b border-stone-200 px-5 py-4 sm:px-6 sm:py-5">
+        <div className="border-b border-stone-200 px-5 py-4 sm:px-6 sm:py-5 dark:border-stone-700/80">
           <h2
             id={titleId}
-            className="text-lg font-semibold text-stone-900"
+            className="text-lg font-semibold text-stone-900 dark:text-stone-50"
           >
             Shortcuts
           </h2>
-          <p className="mt-1 text-sm text-stone-500">
+          <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
             A quick reference. With focus outside a text field, press{" "}
-            <kbd className="rounded border border-stone-300/90 bg-stone-100/90 px-1 font-mono text-xs">?</kbd>{" "}
+            <kbd className="rounded border border-stone-300/90 bg-stone-100/90 px-1 font-mono text-xs dark:border-stone-600 dark:bg-stone-800/90">
+              ?
+            </kbd>{" "}
             to toggle this panel.
           </p>
         </div>
@@ -92,10 +98,12 @@ export function HelpModal() {
           {rows.map((row) => (
             <li
               key={row.label}
-              className="flex flex-col gap-1.5 border-b border-stone-100 py-2.5 last:border-b-0"
+              className="flex flex-col gap-1.5 border-b border-stone-100 py-2.5 last:border-b-0 dark:border-stone-800"
             >
               <div className="flex items-start justify-between gap-2">
-                <span className="text-sm text-stone-800">{row.label}</span>
+                <span className="text-sm text-stone-800 dark:text-stone-200">
+                  {row.label}
+                </span>
                 {row.keys.length > 0 ? (
                   <span className="flex shrink-0 flex-wrap items-center justify-end gap-1">
                     {row.keys.map((k) => (
@@ -105,23 +113,25 @@ export function HelpModal() {
                 ) : null}
               </div>
               {row.detail ? (
-                <p className="text-xs leading-snug text-stone-500">
+                <p className="text-xs leading-snug text-stone-500 dark:text-stone-400">
                   {row.detail}
                 </p>
               ) : null}
             </li>
           ))}
         </ul>
-        <p className="px-5 pb-3 text-xs leading-relaxed text-stone-500 sm:px-6">
+        <p className="px-5 pb-3 text-xs leading-relaxed text-stone-500 sm:px-6 dark:text-stone-400">
           In a text field, single-key shortcuts (like{" "}
-          <kbd className="rounded border border-stone-300/80 bg-stone-100/80 px-1 font-mono text-[0.7rem]">?</kbd>{" "}
+          <kbd className="rounded border border-stone-300/80 bg-stone-100/80 px-1 font-mono text-[0.7rem] dark:border-stone-600 dark:bg-stone-800/80">
+            ?
+          </kbd>{" "}
           or the G+T go-today pair) are disabled so you can type normally.
         </p>
-        <div className="flex items-center justify-end border-t border-stone-200 px-5 py-3 sm:px-6">
+        <div className="flex items-center justify-end border-t border-stone-200 px-5 py-3 sm:px-6 dark:border-stone-700/80">
           <button
             type="button"
             onClick={() => setHelpOpen(false)}
-            className="rounded-lg bg-stone-800 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-stone-700"
+            className="rounded-lg bg-stone-800 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-stone-700 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-100"
           >
             Got it
           </button>

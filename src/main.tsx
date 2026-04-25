@@ -1,10 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { ClerkProvider, useAuth } from "@clerk/react";
-import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { ConvexReactClient } from "convex/react";
 import "./index.css";
-import App from "./App.tsx";
+import { ThemeProvider } from "./ThemeContext";
+import { ThemedClerk } from "./ThemedClerk";
 
 const url = import.meta.env.VITE_CONVEX_URL;
 if (!url) {
@@ -30,10 +29,8 @@ const convex = new ConvexReactClient(url);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ClerkProvider publishableKey={clerkPublishable}>
-      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-        <App />
-      </ConvexProviderWithClerk>
-    </ClerkProvider>
+    <ThemeProvider>
+      <ThemedClerk convex={convex} publishableKey={clerkPublishable} />
+    </ThemeProvider>
   </StrictMode>,
 );

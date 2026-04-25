@@ -24,7 +24,8 @@ export function TaskDragPreview({
         "text-xs text-stone-800 shadow-[0_10px_28px_-6px_rgba(0,0,0,0.18),0_4px_10px_-4px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.04)]",
         "-translate-y-0.5 -rotate-2 ring-1 ring-stone-200/50",
         "origin-center",
-        done && "text-stone-400 line-through decoration-stone-300/80",
+        "dark:border-stone-600/80 dark:bg-stone-800 dark:text-stone-100 dark:ring-stone-700/50",
+        done && "text-stone-400 line-through decoration-stone-300/80 dark:decoration-stone-500/80",
       )}
     >
       <span className="min-w-0 flex-1 truncate text-left leading-tight">
@@ -115,6 +116,8 @@ export function SortableTaskRow({
         comfortable ? "mb-1.5 last:mb-0" : "mb-0.5",
         "border border-stone-200/85 bg-stone-50/75 shadow-[0_1px_0_0_rgba(255,255,255,0.8)]",
         "transition-colors hover:bg-white",
+        "dark:border-stone-600/50 dark:bg-stone-800/50 dark:shadow-[0_1px_0_0_rgba(0,0,0,0.2)]",
+        "dark:hover:bg-stone-800/90",
         comfortable ? "text-sm leading-snug" : "text-[0.7rem] leading-tight sm:text-xs",
       )}
       data-no-new
@@ -138,7 +141,7 @@ export function SortableTaskRow({
           <input
             type="checkbox"
             className={clsx(
-              "cursor-pointer rounded border-stone-300",
+              "cursor-pointer rounded border-stone-300 dark:border-stone-500",
               comfortable ? "size-[1.15rem] touch-manipulation" : "size-3.5",
             )}
             checked={task.done}
@@ -151,6 +154,7 @@ export function SortableTaskRow({
             ref={editInputRef}
             className={clsx(
               "min-w-0 flex-1 self-center border-0 bg-amber-50/40 text-stone-800 outline-none ring-0",
+              "dark:bg-amber-950/30 dark:text-stone-100",
               comfortable ? "min-h-10 py-1 pl-2 pr-1 text-sm" : "h-7 pl-1.5 pr-0.5",
             )}
             value={editValue}
@@ -179,8 +183,8 @@ export function SortableTaskRow({
               comfortable ? "min-h-10 py-0.5 pl-2 pr-1.5" : "h-7 pl-1.5 pr-1.5",
               "cursor-text touch-manipulation",
               task.done
-                ? "text-stone-400 line-through decoration-stone-300/80"
-                : "text-stone-800",
+                ? "text-stone-400 line-through decoration-stone-300/80 dark:decoration-stone-500/60"
+                : "text-stone-800 dark:text-stone-100",
             )}
             title="Double-click to edit; drag the row to move"
             onKeyDown={(e) => {
@@ -225,7 +229,7 @@ export function SortableTaskRow({
           {!task.done && (
             <button
               type="button"
-              className="shrink-0 cursor-pointer rounded px-0.5 text-[0.6rem] leading-none text-stone-400 transition hover:text-stone-800"
+              className="shrink-0 cursor-pointer rounded px-0.5 text-[0.6rem] leading-none text-stone-400 transition hover:text-stone-800 dark:hover:text-stone-200"
               title="Next day"
               onClick={async (e) => {
                 e.stopPropagation();
@@ -245,7 +249,7 @@ export function SortableTaskRow({
           )}
           <button
             type="button"
-            className="shrink-0 cursor-pointer rounded p-0.5 text-base leading-none text-stone-300 transition hover:text-rose-500"
+            className="shrink-0 cursor-pointer rounded p-0.5 text-base leading-none text-stone-300 transition hover:text-rose-500 dark:text-stone-500 dark:hover:text-rose-400"
             title="Remove"
             onClick={(e) => {
               e.stopPropagation();

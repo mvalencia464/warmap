@@ -259,7 +259,9 @@ export function PomodoroTimer() {
         className={clsx(
           "rounded-md border border-stone-200/90 bg-white px-2 py-1 text-xs font-medium text-stone-600 shadow-sm transition",
           "hover:border-stone-300 hover:bg-stone-50",
-          isRunning && "border-emerald-300/80 text-emerald-700",
+          "dark:border-stone-600/90 dark:bg-stone-800/90 dark:text-stone-300 dark:hover:border-stone-500 dark:hover:bg-stone-800",
+          isRunning
+            && "border-emerald-300/80 text-emerald-700 dark:border-emerald-600/60 dark:text-emerald-300",
         )}
         onClick={() => setOpen((o) => !o)}
         title="Focus timer"
@@ -270,12 +272,14 @@ export function PomodoroTimer() {
       {open && panelPos && typeof document !== "undefined" && createPortal(
         <div
           ref={panelRef}
-          className="fixed z-260 w-72 rounded-xl border border-stone-200 bg-white p-3 shadow-xl"
+          className="fixed z-260 w-72 rounded-xl border border-stone-200 bg-white p-3 shadow-xl dark:border-stone-600/90 dark:bg-stone-900 dark:shadow-black/30"
           style={{ top: panelPos.top, left: panelPos.left }}
         >
-          <p className="text-xs font-semibold tracking-wide text-stone-500 uppercase">Pomodoro</p>
+          <p className="text-xs font-semibold tracking-wide text-stone-500 uppercase dark:text-stone-400">
+            Pomodoro
+          </p>
           <div className="mt-2 flex items-end gap-2">
-            <label className="flex-1 text-xs text-stone-600">
+            <label className="flex-1 text-xs text-stone-600 dark:text-stone-400">
               Minutes
               <input
                 type="number"
@@ -283,7 +287,7 @@ export function PomodoroTimer() {
                 max={MAX_MINUTES}
                 value={minutesDraft}
                 onChange={(e) => setMinutesDraft(e.target.value)}
-                className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-sm text-stone-900"
+                className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-sm text-stone-900 dark:border-stone-600 dark:bg-stone-950/80 dark:text-stone-100"
                 disabled={isRunning}
               />
             </label>
@@ -293,46 +297,63 @@ export function PomodoroTimer() {
               className={clsx(
                 "rounded-md px-3 py-1.5 text-sm font-medium transition",
                 isRunning
-                  ? "bg-stone-200 text-stone-700 hover:bg-stone-300"
-                  : "bg-stone-800 text-white hover:bg-stone-700",
+                  ? "bg-stone-200 text-stone-700 hover:bg-stone-300 dark:bg-stone-700 dark:text-stone-200 dark:hover:bg-stone-600"
+                  : "bg-stone-800 text-white hover:bg-stone-700 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-100",
               )}
             >
               {isRunning ? "Stop" : "Start"}
             </button>
           </div>
 
-          <label className="mt-2 block text-xs text-stone-600">
+          <label className="mt-2 block text-xs text-stone-600 dark:text-stone-400">
             Task (optional)
             <input
               type="text"
               value={labelDraft}
               onChange={(e) => setLabelDraft(e.target.value)}
               placeholder="What are you focusing on?"
-              className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-sm text-stone-900"
+              className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-sm text-stone-900 dark:border-stone-600 dark:bg-stone-950/80 dark:text-stone-100"
               disabled={isRunning}
               maxLength={120}
             />
           </label>
 
           <div className="mt-2 flex items-center justify-between">
-            <label className="inline-flex items-center gap-1.5 text-xs text-stone-600">
+            <label className="inline-flex items-center gap-1.5 text-xs text-stone-600 dark:text-stone-400">
               <input
                 type="checkbox"
-                className="size-3.5 rounded border-stone-300"
+                className="size-3.5 rounded border-stone-300 dark:border-stone-500"
                 checked={soundEnabled}
                 onChange={(e) => setSoundEnabled(e.target.checked)}
               />
               Alert sound
             </label>
             {isRunning ? (
-              <span className="text-xs text-stone-500">{activeLabel}</span>
+              <span className="text-xs text-stone-500 dark:text-stone-500">
+                {activeLabel}
+              </span>
             ) : null}
           </div>
 
-          <div className="mt-3 rounded-md border border-stone-200/80 bg-stone-50/70 px-2.5 py-2 text-xs text-stone-600">
-            <p>Today: <span className="font-semibold text-stone-800">{todayStats.minutes}m</span> across <span className="font-semibold text-stone-800">{todayStats.sessions}</span> sessions</p>
+          <div className="mt-3 rounded-md border border-stone-200/80 bg-stone-50/70 px-2.5 py-2 text-xs text-stone-600 dark:border-stone-700/80 dark:bg-stone-950/50 dark:text-stone-300">
+            <p>
+              Today:{" "}
+              <span className="font-semibold text-stone-800 dark:text-stone-100">
+                {todayStats.minutes}m
+              </span>{" "}
+              across{" "}
+              <span className="font-semibold text-stone-800 dark:text-stone-100">
+                {todayStats.sessions}
+              </span>{" "}
+              sessions
+            </p>
             {todayStats.topLabel ? (
-              <p className="mt-0.5 truncate">Top focus: <span className="font-medium text-stone-800">{todayStats.topLabel}</span></p>
+              <p className="mt-0.5 truncate">
+                Top focus:{" "}
+                <span className="font-medium text-stone-800 dark:text-stone-200">
+                  {todayStats.topLabel}
+                </span>
+              </p>
             ) : null}
           </div>
         </div>,

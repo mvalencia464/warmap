@@ -84,7 +84,7 @@ export function YearDashboard() {
   if (categories === undefined || plans === undefined) {
     return (
       <AppShell year={year} quote={dailyQuote}>
-        <p className="text-sm text-stone-500">Loading…</p>
+        <p className="text-sm text-stone-500 dark:text-stone-400">Loading…</p>
       </AppShell>
     );
   }
@@ -93,10 +93,10 @@ export function YearDashboard() {
     <AppShell year={year} quote={dailyQuote}>
       <div className="mb-4 flex flex-wrap items-end justify-end gap-4">
         <div className="flex items-center gap-2">
-          <label className="text-sm text-stone-600">
+          <label className="text-sm text-stone-600 dark:text-stone-400">
             Year
             <select
-              className="ml-1.5 rounded-md border border-stone-200 bg-white px-2 py-1 text-stone-900"
+              className="ml-1.5 rounded-md border border-stone-200 bg-white px-2 py-1 text-stone-900 dark:border-stone-600 dark:bg-stone-900/80 dark:text-stone-100"
               value={year}
               onChange={(e) => {
                 const n = Number(e.target.value);
