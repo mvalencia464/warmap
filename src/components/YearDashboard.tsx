@@ -5,8 +5,8 @@ import { api } from "../../convex/_generated/api";
 import { AppShell } from "./Layout";
 import { MiniMonth } from "./MiniMonth";
 import { ProjectsKeyPanel } from "./ProjectsKeyPanel";
-import { categoryPill, isColorKey, DEFAULT_COLOR } from "../lib/colors";
 import { PlanRangeModal } from "./PlanRangeModal";
+import { getQuoteForDate } from "../lib/dailyQuote";
 
 const MONTHS: readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
@@ -79,28 +79,19 @@ export function YearDashboard() {
     }
     return m;
   }, [categories]);
+  const dailyQuote = useMemo(() => getQuoteForDate(new Date()), []);
 
   if (categories === undefined || plans === undefined) {
     return (
-      <AppShell year={year}>
+      <AppShell year={year} quote={dailyQuote}>
         <p className="text-sm text-stone-500">Loading…</p>
       </AppShell>
     );
   }
 
   return (
-    <AppShell year={year}>
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-widest text-stone-400">
-            {year} overview
-          </p>
-          <p className="mt-1 text-sm text-stone-500">
-            Click a day, then another (any month), to set a project range, or use
-            + date range. Press Esc to clear the first day.
-            January is first, December last.
-          </p>
-        </div>
+    <AppShell year={year} quote={dailyQuote}>
+      <div className="mb-4 flex flex-wrap items-end justify-end gap-4">
         <div className="flex items-center gap-2">
           <label className="text-sm text-stone-600">
             Year
@@ -120,26 +111,6 @@ export function YearDashboard() {
             </select>
           </label>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          {categories.map((c) => {
-            const k = isColorKey(c.colorKey) ? c.colorKey : DEFAULT_COLOR;
-            return (
-              <span key={c._id} className={categoryPill(k)}>
-                {c.name}
-              </span>
-            );
-          })}
-        </div>
-        <button
-          type="button"
-          onClick={() => {
-            setRangePaintAnchor(null);
-            setPlanModal({ prefill: null });
-          }}
-          className="rounded-lg border border-stone-200 bg-white px-3 py-1.5 text-sm font-medium text-stone-700 shadow-sm transition hover:border-stone-300 hover:bg-stone-50"
-        >
-          + date range
-        </button>
       </div>
 
       {planModal && (

@@ -5,7 +5,7 @@ const rows: { label: string; keys: string[]; detail?: string }[] = [
   { label: "Open this help", keys: ["?"] },
   { label: "Go to today (current month view)", keys: ["G", "T"], detail: "Press G, then T (like Gmail)" },
   { label: "Close this panel, cancel new task, exit title edit", keys: ["Esc"] },
-  { label: "Use year navigation", keys: ["DASH"], detail: "Bottom bar: DASH = year, months = that month" },
+  { label: "Use year navigation", keys: ["PLAN"], detail: "Top tabs: PLAN = year, months = that month" },
   { label: "Save a task name while editing", keys: ["Enter"] },
   { label: "Move a task to another day or row", keys: ["Drag"] },
   { label: "Edit a task’s title", keys: ["Double-click"] },
@@ -15,12 +15,6 @@ const rows: { label: string; keys: string[]; detail?: string }[] = [
     detail:
       "Click a day in one mini-month, then a second day in any month on the year (order doesn’t matter). Press Esc to cancel the first pick.",
   },
-  { label: "Add a project with a date picker (year view)", keys: ["+ range"] },
-  {
-    label: "Jump to today (same as G then T)",
-    keys: ["Today", "TODAY"],
-    detail: "“Today” in the header, or the TODAY tab first in the bottom bar.",
-  },
 ];
 
 function Kb({ k }: { k: string }) {
@@ -28,11 +22,8 @@ function Kb({ k }: { k: string }) {
     k.length > 3
     && k !== "Drag"
     && k !== "Double-click"
-    && k !== "DASH"
-    && k !== "+ range"
+    && k !== "PLAN"
     && k !== "2 clicks"
-    && k !== "Today"
-    && k !== "TODAY"
   ) {
     return <span className="whitespace-nowrap text-stone-500">{k}</span>;
   }
@@ -101,7 +92,7 @@ export function HelpModal() {
               <div className="flex items-start justify-between gap-2">
                 <span className="text-sm text-stone-800">{row.label}</span>
                 {row.keys.length > 0 ? (
-                  <span className="flex flex-shrink-0 flex-wrap items-center justify-end gap-1">
+                  <span className="flex shrink-0 flex-wrap items-center justify-end gap-1">
                     {row.keys.map((k) => (
                       <Kb key={`${row.label}-${k}`} k={k} />
                     ))}

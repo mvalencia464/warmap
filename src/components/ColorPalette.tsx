@@ -29,8 +29,8 @@ type Props = {
 };
 
 const swatchSize: Record<NonNullable<Props["size"]>, string> = {
-  default: "h-6 w-6",
-  sm: "h-4 w-4",
+  default: "h-7 w-7",
+  sm: "h-5 w-5",
 };
 
 function selectedInfo(
@@ -131,8 +131,8 @@ export function ColorPalette({
   const showCompact = variant === "compact";
   const sel = selectedInfo(value, showAuto, autoToken, categories);
   const minimalCompact = showCompact && compactStyle === "minimal";
-  const triggerH = size === "sm" ? "h-5" : "h-6";
-  const triggerW = size === "sm" ? "min-w-[1.5rem] px-1" : "min-w-[1.6rem] px-1.5";
+  const triggerH = size === "sm" ? "h-6" : "h-7";
+  const triggerW = size === "sm" ? "min-w-[1.9rem] px-1.5" : "min-w-[2.2rem] px-1.5";
 
   if (!showCompact) {
     return (
@@ -230,7 +230,7 @@ export function ColorPalette({
         {minimalCompact ? (
           sel.kind === "auto" ? (
             <span
-              className="flex h-3 w-3 items-center justify-center rounded-sm border border-dashed border-stone-400/80 bg-stone-50 text-[0.4rem] font-bold text-stone-500"
+              className="flex h-4 w-4 items-center justify-center rounded-sm border border-dashed border-stone-400/80 bg-stone-50 text-[0.5rem] font-bold text-stone-500"
               aria-hidden
             >
               A
@@ -238,7 +238,7 @@ export function ColorPalette({
           ) : (
             <span
               className={clsx(
-                "block h-3 w-3 rounded-sm border border-stone-900/10 shadow-sm",
+                "block h-4 w-4 rounded-sm border border-stone-900/10 shadow-sm",
                 keySwatchClass(sel.key),
               )}
             />
@@ -247,7 +247,7 @@ export function ColorPalette({
           "A"
         ) : (
           <span
-            className={clsx("block h-2.5 w-6 max-w-full rounded-sm", keySwatchClass(sel.key))}
+            className={clsx("block h-3 w-8 max-w-full rounded-sm", keySwatchClass(sel.key))}
             aria-hidden
           />
         )}
