@@ -296,33 +296,61 @@ export function MonthView() {
         autoScroll
       >
         <div className="w-full min-w-0">
-          <div className="mb-2 grid min-w-0 grid-cols-7 border-b border-stone-200/80 pb-1 text-center text-xs font-medium uppercase tracking-wider text-stone-400">
-            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
-              <div key={d}>{d}</div>
-            ))}
+          <div className="space-y-2 sm:hidden">
+            {monthGridCells(year, month)
+              .filter((cell) => cell.inMonth)
+              .map((cell) => (
+                <DayColumn
+                  key={cell.iso}
+                  day={cell.iso}
+                  inMonth
+                  stacked
+                  isToday={isTodayStr(cell.iso)}
+                  dayNum={cell.day}
+                  items={byDay.get(cell.iso) ?? []}
+                  categories={categories}
+                  isComposing={composingDay === cell.iso}
+                  isDropTarget={hoveredDay === cell.iso}
+                  onOpenCompose={() => {
+                    if ((byDay.get(cell.iso) ?? []).length < 5) {
+                      setComposingDay(cell.iso);
+                    }
+                  }}
+                  onCloseCompose={() => setComposingDay(null)}
+                  planHints={dayPlanHints.get(cell.iso) ?? []}
+                />
+              ))}
           </div>
 
-          <div className="grid w-full min-w-0 auto-rows-min grid-cols-7 overflow-hidden rounded-md border border-stone-200/50">
-            {monthGridCells(year, month).map((cell) => (
-              <DayColumn
-                key={cell.iso}
-                day={cell.iso}
-                inMonth={cell.inMonth}
-                isToday={isTodayStr(cell.iso)}
-                dayNum={cell.day}
-                items={cell.inMonth ? byDay.get(cell.iso) ?? [] : []}
-                categories={categories}
-                isComposing={composingDay === cell.iso}
-                isDropTarget={cell.inMonth && hoveredDay === cell.iso}
-                onOpenCompose={() => {
-                  if ((byDay.get(cell.iso) ?? []).length < 5) {
-                    setComposingDay(cell.iso);
-                  }
-                }}
-                onCloseCompose={() => setComposingDay(null)}
-                planHints={dayPlanHints.get(cell.iso) ?? []}
-              />
-            ))}
+          <div className="hidden sm:block">
+            <div className="mb-2 grid min-w-0 grid-cols-7 border-b border-stone-200/80 pb-1 text-center text-xs font-medium uppercase tracking-wider text-stone-400">
+              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
+                <div key={d}>{d}</div>
+              ))}
+            </div>
+
+            <div className="grid w-full min-w-0 auto-rows-min grid-cols-7 overflow-hidden rounded-md border border-stone-200/50">
+              {monthGridCells(year, month).map((cell) => (
+                <DayColumn
+                  key={cell.iso}
+                  day={cell.iso}
+                  inMonth={cell.inMonth}
+                  isToday={isTodayStr(cell.iso)}
+                  dayNum={cell.day}
+                  items={cell.inMonth ? byDay.get(cell.iso) ?? [] : []}
+                  categories={categories}
+                  isComposing={composingDay === cell.iso}
+                  isDropTarget={cell.inMonth && hoveredDay === cell.iso}
+                  onOpenCompose={() => {
+                    if ((byDay.get(cell.iso) ?? []).length < 5) {
+                      setComposingDay(cell.iso);
+                    }
+                  }}
+                  onCloseCompose={() => setComposingDay(null)}
+                  planHints={dayPlanHints.get(cell.iso) ?? []}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <DragOverlay
@@ -397,6 +425,7 @@ export function MonthView() {
 function DayColumn({
   day,
   inMonth,
+  stacked = false,
   isToday,
   dayNum,
   items,
@@ -409,6 +438,7 @@ function DayColumn({
 }: {
   day: string;
   inMonth: boolean;
+  stacked?: boolean;
   isToday: boolean;
   dayNum: number;
   items: Doc<"tasks">[];
@@ -515,7 +545,10 @@ function DayColumn({
   return (
     <div
       className={clsx(
-        "group/d relative flex h-full min-h-0 min-w-0 flex-col border-b border-r border-stone-200/60 p-0",
+        "group/d relative flex h-full min-h-0 min-w-0 flex-col p-0",
+        stacked
+          ? "overflow-hidden rounded-md border border-stone-200/70"
+          : "border-b border-r border-stone-200/60",
         isToday
           && "z-1 bg-amber-50/55 ring-2 ring-inset ring-amber-500/80 shadow-[inset_0_0_0_1px_rgba(251,191,36,0.2)]",
         !isToday && (firstPlanKey ? monthPlanHintClass(firstPlanKey) : "bg-white"),
@@ -548,7 +581,7 @@ function DayColumn({
       <div
         className={clsx(
           "relative flex w-full min-w-0 flex-1 flex-col",
-          DAY_TASK_AREA_MIN,
+          stacked ? "min-h-26" : DAY_TASK_AREA_MIN,
         )}
       >
         {empty && (
