@@ -30,6 +30,7 @@ import { planHintsForDay } from "../lib/planHints";
 import { clsx } from "clsx";
 import { dayCellDropId, endDropId } from "../lib/taskDndIds";
 import { DayEndDrop, SortableTaskRow, TaskDragPreview } from "./TaskDnDRow";
+import { getQuoteForDate } from "../lib/dailyQuote";
 
 /** Aligned to five `h-7` (1.75rem) task rows in `SortableTaskRow` */
 const DAY_TASK_AREA_MIN = "min-h-[8.75rem]";
@@ -240,10 +241,11 @@ export function MonthView() {
       .filter((p) => rangeOverlapsMonth(year, month, p.startDate, p.endDate))
       .sort((a, b) => a.startDate.localeCompare(b.startDate));
   }, [plans, year, month, valid]);
+  const dailyQuote = useMemo(() => getQuoteForDate(new Date()), []);
 
   if (!valid) {
     return (
-      <Layout year={new Date().getFullYear()}>
+      <Layout year={new Date().getFullYear()} quote={dailyQuote}>
         <p className="text-sm text-stone-500">Invalid month</p>
       </Layout>
     );
@@ -258,14 +260,14 @@ export function MonthView() {
     plans === undefined
   ) {
     return (
-      <Layout year={year}>
+      <Layout year={year} quote={dailyQuote}>
         <p className="text-sm text-stone-500">Loading…</p>
       </Layout>
     );
   }
 
   return (
-    <Layout year={year}>
+    <Layout year={year} quote={dailyQuote}>
       <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
         <div>
           <Link
@@ -493,7 +495,7 @@ function DayColumn({
         className={clsx(
           "min-h-10",
           isToday
-            && "z-[1] border border-amber-400/80 bg-amber-50/90 ring-2 ring-inset ring-amber-500/70",
+            && "z-1 border border-amber-400/80 bg-amber-50/90 ring-2 ring-inset ring-amber-500/70",
           !isToday && "bg-stone-100/90",
         )}
         title={isToday ? "Today" : undefined}
@@ -513,10 +515,10 @@ function DayColumn({
       className={clsx(
         "group/d relative flex h-full min-h-0 min-w-0 flex-col border-b border-r border-stone-200/60 p-0",
         isToday
-          && "z-[1] bg-amber-50/55 ring-2 ring-inset ring-amber-500/80 shadow-[inset_0_0_0_1px_rgba(251,191,36,0.2)]",
+          && "z-1 bg-amber-50/55 ring-2 ring-inset ring-amber-500/80 shadow-[inset_0_0_0_1px_rgba(251,191,36,0.2)]",
         !isToday && (firstPlanKey ? monthPlanHintClass(firstPlanKey) : "bg-white"),
         isDropTarget
-          && "z-[2] scale-[1.01] ring-2 ring-sky-500/45 ring-inset",
+          && "z-2 scale-[1.01] ring-2 ring-sky-500/45 ring-inset",
       )}
       title={dayTip}
       aria-current={isToday ? "date" : undefined}
@@ -549,7 +551,7 @@ function DayColumn({
       >
         {empty && (
           <div
-            className="pointer-events-none absolute right-0.5 bottom-1.5 z-[1] text-lg font-extralight text-stone-200 opacity-0 transition group-hover/d:opacity-100"
+            className="pointer-events-none absolute right-0.5 bottom-1.5 z-1 text-lg font-extralight text-stone-200 opacity-0 transition group-hover/d:opacity-100"
             aria-hidden
           >
             +

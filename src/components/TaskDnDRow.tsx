@@ -107,7 +107,12 @@ export function SortableTaskRow({
     <li
       ref={setRef}
       style={style}
-      className="pointer-events-auto group relative z-10 flex w-full min-w-0 items-center bg-white text-[0.7rem] leading-tight sm:text-xs"
+      className={clsx(
+        "pointer-events-auto group relative z-10 mb-0.5 flex w-full min-w-0 items-center rounded-sm",
+        "border border-stone-200/85 bg-stone-50/75 text-[0.7rem] leading-tight shadow-[0_1px_0_0_rgba(255,255,255,0.8)]",
+        "transition-colors hover:bg-white",
+        "sm:text-xs",
+      )}
       data-no-new
       data-task-row
       {...attributes}
