@@ -10,6 +10,7 @@
 
 import type * as authHelpers from "../authHelpers.js";
 import type * as categories from "../categories.js";
+import type * as focusAnalytics from "../focusAnalytics.js";
 import type * as monthNotes from "../monthNotes.js";
 import type * as plans from "../plans.js";
 import type * as tasks from "../tasks.js";
@@ -25,6 +26,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   authHelpers: typeof authHelpers;
   categories: typeof categories;
+  focusAnalytics: typeof focusAnalytics;
   monthNotes: typeof monthNotes;
   plans: typeof plans;
   tasks: typeof tasks;

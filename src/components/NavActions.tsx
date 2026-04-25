@@ -75,6 +75,24 @@ function SparkIcon({ className }: { className?: string }) {
   );
 }
 
+function ChartIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M4 19h16" />
+      <path d="M7 16V9M12 16V5M17 16v-3" />
+    </svg>
+  );
+}
+
 export function NavActions() {
   const { theme, toggleTheme } = useTheme();
   const { setHelpOpen } = useHelp();
@@ -95,6 +113,11 @@ export function NavActions() {
             label="Inspiration"
             labelIcon={<SparkIcon className="h-4 w-4" />}
             onClick={() => navigate("/inspiration")}
+          />
+          <UserButton.Action
+            label="Analytics"
+            labelIcon={<ChartIcon className="h-4 w-4" />}
+            onClick={() => navigate("/analytics")}
           />
           <UserButton.Action
             label={isDark ? "Light mode" : "Dark mode"}

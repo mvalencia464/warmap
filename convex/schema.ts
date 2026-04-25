@@ -51,4 +51,11 @@ export default defineSchema({
     publicUrl: v.string(),
     sortOrder: v.number(),
   }).index("by_user", ["userId"]),
+
+  focusSessions: defineTable({
+    userId: v.string(),
+    completedAt: v.number(),
+    seconds: v.number(),
+    label: v.string(),
+  }).index("by_user_and_completedAt", ["userId", "completedAt"]),
 });

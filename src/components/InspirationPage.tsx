@@ -25,9 +25,6 @@ export function InspirationPage() {
             War map is designed to turn vision into weekly direction and daily action. It combines
             long-horizon planning with ruthless prioritization so your calendar reflects your strategy.
           </p>
-          <p className="text-xs text-stone-500 dark:text-stone-400">
-            Tip: press <kbd className="rounded border border-stone-300 bg-stone-100 px-1 font-mono dark:border-stone-600 dark:bg-stone-800">?</kbd> anywhere outside text inputs to open the shortcut menu.
-          </p>
         </header>
 
         <section className="space-y-3">

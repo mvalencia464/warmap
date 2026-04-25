@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { clsx } from "clsx";
 import { createPortal } from "react-dom";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 const STORAGE_KEY = "war-map-pomodoro-v1";
 const MIN_MINUTES = 1;
@@ -106,6 +108,7 @@ function playDoneTone() {
 }
 
 export function PomodoroTimer() {
+  const logFocusSession = useMutation(api.focusAnalytics.logSession);
   const persisted = useMemo(loadPersisted, []);
   const [open, setOpen] = useState(false);
   const [minutesDraft, setMinutesDraft] = useState(persisted.minutesDraft);
@@ -122,10 +125,17 @@ export function PomodoroTimer() {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const titleBeforeTimerRef = useRef<string | null>(null);
   const [panelPos, setPanelPos] = useState<{ top: number; left: number } | null>(null);
+  const completedRunRef = useRef<number | null>(null);
 
   useEffect(() => {
     savePersisted({ minutesDraft, labelDraft, soundEnabled, running, logs });
   }, [minutesDraft, labelDraft, soundEnabled, running, logs]);
+
+  useEffect(() => {
+    if (running) {
+      completedRunRef.current = null;
+    }
+  }, [running?.startedAt]);
 
   useEffect(() => {
     if (!running) {
@@ -136,15 +146,23 @@ export function PomodoroTimer() {
       const left = Math.max(0, Math.ceil((running.endsAt - Date.now()) / 1000));
       setSecondsLeft(left);
       if (left === 0) {
+        if (completedRunRef.current === running.startedAt) return;
+        completedRunRef.current = running.startedAt;
+        const completedAt = Date.now();
         setRunning(null);
         setLogs((prev) => [
           ...prev.slice(-199),
           {
-            completedAt: Date.now(),
+            completedAt,
             seconds: running.totalSeconds,
             label: running.label.trim(),
           },
         ]);
+        void logFocusSession({
+          completedAt,
+          seconds: running.totalSeconds,
+          label: running.label.trim(),
+        });
         if (soundEnabled) {
           playDoneTone();
         }
@@ -153,7 +171,7 @@ export function PomodoroTimer() {
     tick();
     const id = window.setInterval(tick, 250);
     return () => window.clearInterval(id);
-  }, [running, soundEnabled]);
+  }, [running, soundEnabled, logFocusSession]);
 
   useEffect(() => {
     if (running) {

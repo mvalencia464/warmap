@@ -8,6 +8,7 @@ import { YearDashboard } from "./components/YearDashboard";
 import { MonthView } from "./components/MonthView";
 import { VisionBoard } from "./components/VisionBoard";
 import { InspirationPage } from "./components/InspirationPage";
+import { AnalyticsPage } from "./components/AnalyticsPage";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="/" element={<YearDashboard />} />
             <Route path="/:year/:month" element={<MonthView />} />
             <Route path="/inspiration" element={<InspirationPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
           </Routes>
           <VisionBoard />
         </BrowserRouter>
