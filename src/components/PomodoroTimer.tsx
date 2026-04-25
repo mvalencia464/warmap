@@ -15,6 +15,13 @@ type SessionLog = {
   label: string;
 };
 
+type PendingSessionSync = {
+  completedAt: number;
+  seconds: number;
+  label: string;
+  projectTitle: string;
+};
+
 type Persisted = {
   minutesDraft: string;
   labelDraft: string;
@@ -28,6 +35,7 @@ type Persisted = {
     projectTitle: string;
   } | null;
   logs: SessionLog[];
+  pendingSync: PendingSessionSync[];
 };
 
 function loadPersisted(): Persisted {
@@ -39,6 +47,7 @@ function loadPersisted(): Persisted {
       soundEnabled: true,
       running: null,
       logs: [],
+      pendingSync: [],
     };
   }
   try {
@@ -51,6 +60,7 @@ function loadPersisted(): Persisted {
       soundEnabled: parsed.soundEnabled ?? true,
       running: parsed.running ?? null,
       logs: Array.isArray(parsed.logs) ? parsed.logs : [],
+      pendingSync: Array.isArray(parsed.pendingSync) ? parsed.pendingSync : [],
     };
   } catch {
     return {
@@ -60,6 +70,7 @@ function loadPersisted(): Persisted {
       soundEnabled: true,
       running: null,
       logs: [],
+      pendingSync: [],
     };
   }
 }
@@ -129,6 +140,7 @@ export function PomodoroTimer() {
   const [projectDraftTitle, setProjectDraftTitle] = useState(persisted.projectDraftTitle);
   const [soundEnabled, setSoundEnabled] = useState(persisted.soundEnabled);
   const [logs, setLogs] = useState<SessionLog[]>(persisted.logs);
+  const [pendingSync, setPendingSync] = useState<PendingSessionSync[]>(persisted.pendingSync);
   const [running, setRunning] = useState<Persisted["running"]>(persisted.running);
   const [secondsLeft, setSecondsLeft] = useState(() => {
     if (!persisted.running) return 0;
@@ -142,8 +154,38 @@ export function PomodoroTimer() {
   const completedRunRef = useRef<number | null>(null);
 
   useEffect(() => {
-    savePersisted({ minutesDraft, labelDraft, projectDraftTitle, soundEnabled, running, logs });
-  }, [minutesDraft, labelDraft, projectDraftTitle, soundEnabled, running, logs]);
+    savePersisted({
+      minutesDraft,
+      labelDraft,
+      projectDraftTitle,
+      soundEnabled,
+      running,
+      logs,
+      pendingSync,
+    });
+  }, [minutesDraft, labelDraft, projectDraftTitle, soundEnabled, running, logs, pendingSync]);
+
+  useEffect(() => {
+    if (pendingSync.length === 0) return;
+    let cancelled = false;
+    const syncPending = async () => {
+      const remaining: PendingSessionSync[] = [];
+      for (const entry of pendingSync) {
+        try {
+          await logFocusSession(entry);
+        } catch {
+          remaining.push(entry);
+        }
+      }
+      if (!cancelled) {
+        setPendingSync(remaining);
+      }
+    };
+    void syncPending();
+    return () => {
+      cancelled = true;
+    };
+  }, [pendingSync, logFocusSession]);
 
   useEffect(() => {
     if (running) {
@@ -172,12 +214,13 @@ export function PomodoroTimer() {
             label: running.label.trim(),
           },
         ]);
-        void logFocusSession({
+        setPendingSync((prev) => [
+          ...prev,
           completedAt,
           seconds: running.totalSeconds,
           label: running.label.trim(),
           projectTitle: running.projectTitle.trim(),
-        });
+        ]);
         if (soundEnabled) {
           playDoneTone();
         }
