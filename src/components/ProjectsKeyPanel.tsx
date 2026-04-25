@@ -169,9 +169,6 @@ function KeyDeleteButton({ plan }: { plan: Plan }) {
       aria-label={`Delete “${plan.title}”`}
       onClick={async (e) => {
         e.stopPropagation();
-        if (!confirm("Delete this project range from the calendar?")) {
-          return;
-        }
         try {
           await remove({ id: plan._id });
         } catch (e) {

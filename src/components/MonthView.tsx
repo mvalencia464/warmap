@@ -445,7 +445,7 @@ function DayColumn({
   const draftRef = useRef("");
   const addFlushRef = useRef(false);
 
-  const trySaveNewTask = useCallback(async () => {
+  const trySaveNewTask = useCallback(async (keepComposingAfterSave = false) => {
     if (addFlushRef.current) return;
     const t = draftRef.current.trim();
     if (!t) {
@@ -462,7 +462,9 @@ function DayColumn({
     } finally {
       addFlushRef.current = false;
     }
-    onCloseCompose();
+    if (!keepComposingAfterSave) {
+      onCloseCompose();
+    }
   }, [add, day, onCloseCompose]);
 
   useEffect(() => {
@@ -525,8 +527,8 @@ function DayColumn({
     >
       <div
         className={clsx(
-          "flex shrink-0 items-center justify-end gap-0.5 border-b border-stone-200/50 px-1.5 py-0.5 text-[0.65rem] font-medium tabular-nums",
-          isToday && "border-amber-200/80 bg-amber-100/40",
+          "flex shrink-0 items-center justify-end gap-0.5 px-1.5 py-0.5 text-[0.65rem] font-medium tabular-nums",
+          isToday && "bg-amber-100/40",
           isToday ? "text-amber-950" : "text-stone-400",
         )}
       >
@@ -595,7 +597,7 @@ function DayColumn({
               className="pointer-events-auto w-full"
               onSubmit={(e) => {
                 e.preventDefault();
-                void trySaveNewTask();
+                void trySaveNewTask(true);
               }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -613,7 +615,7 @@ function DayColumn({
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
-                    void trySaveNewTask();
+                    void trySaveNewTask(!e.shiftKey);
                   }
                 }}
                 onBlur={() => {

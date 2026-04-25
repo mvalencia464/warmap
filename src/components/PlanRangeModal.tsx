@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import type { Doc, Id } from "../../convex/_generated/dataModel";
+import type { Doc } from "../../convex/_generated/dataModel";
 import { pickCategoryIdForNewPlan } from "../lib/pickCategoryForNewPlan";
-import { ColorPalette } from "./ColorPalette";
-
-const AUTO = "__auto__" as const;
 
 type Props = {
   year: number;
@@ -30,7 +27,6 @@ export function PlanRangeModal({
   const [end, setEnd] = useState(
     prefill ? prefill.end : `${year}-01-07`,
   );
-  const [colorChoice, setColorChoice] = useState<string>(AUTO);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState("");
 
@@ -49,10 +45,7 @@ export function PlanRangeModal({
       setErr("End must be on or after start.");
       return;
     }
-    const categoryId =
-      colorChoice === AUTO
-        ? pickCategoryIdForNewPlan(categories, plansInYear)
-        : (colorChoice as Id<"categories">);
+    const categoryId = pickCategoryIdForNewPlan(categories, plansInYear);
     setSaving(true);
     try {
       await addPlan({
@@ -72,8 +65,8 @@ export function PlanRangeModal({
   return (
     <ModalShell title="New project range" onBackdropMouseDown={onClose}>
       <p className="mt-0.5 text-sm text-stone-500">
-        Shown on the year grid and in the Key. Use A to pick a less-used
-        color automatically, or choose a swatch.
+        Shown on the year grid and in the Key. Color is auto-assigned and can
+        be changed later in the Key.
       </p>
       <form
         className="mt-4 flex flex-col gap-3"
@@ -86,22 +79,9 @@ export function PlanRangeModal({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Q2 launch, vacation, course…"
+            autoFocus
           />
         </label>
-        <div className="text-sm text-stone-600">
-          <p className="mb-1.5 font-medium">Color</p>
-          <p className="mb-1.5 text-xs font-normal text-stone-500">
-            Tap a swatch, or A for automatic balance.
-          </p>
-          <ColorPalette
-            value={colorChoice}
-            onChange={setColorChoice}
-            categories={categories}
-            showAuto
-            autoToken={AUTO}
-            className="mt-0.5"
-          />
-        </div>
         <div className="grid grid-cols-2 gap-3">
           <DateField
             label="Start"

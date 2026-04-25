@@ -6,7 +6,11 @@ const rows: { label: string; keys: string[]; detail?: string }[] = [
   { label: "Go to today (current month view)", keys: ["G", "T"], detail: "Press G, then T (like Gmail)" },
   { label: "Close this panel, cancel new task, exit title edit", keys: ["Esc"] },
   { label: "Use year navigation", keys: ["PLAN"], detail: "Top tabs: PLAN = year, months = that month" },
-  { label: "Save a task name while editing", keys: ["Enter"] },
+  {
+    label: "Add tasks quickly in a day",
+    keys: ["Enter", "Shift+Enter", "Esc"],
+    detail: "Enter saves and starts the next task. Shift+Enter saves and closes.",
+  },
   { label: "Move a task to another day or row", keys: ["Drag"] },
   { label: "Edit a task’s title", keys: ["Double-click"] },
   {
@@ -22,6 +26,7 @@ function Kb({ k }: { k: string }) {
     k.length > 3
     && k !== "Drag"
     && k !== "Double-click"
+    && k !== "Shift+Enter"
     && k !== "PLAN"
     && k !== "2 clicks"
   ) {
