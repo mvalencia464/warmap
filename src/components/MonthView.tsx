@@ -268,22 +268,16 @@ export function MonthView() {
 
   return (
     <Layout year={year} quote={dailyQuote}>
-      <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-        <div>
-          <Link
-            to={`/?year=${year}`}
-            className="text-sm font-medium text-stone-400 transition hover:text-stone-600"
-          >
-            ← {year} overview
-          </Link>
-          <h2 className="text-2xl font-semibold tracking-tight text-stone-900">
-            {monthLabel}
-          </h2>
-        </div>
-        <p className="text-sm text-stone-500">
-          Click a day to add, Enter for the next. Drag a task to reorder or move
-          to another day.
-        </p>
+      <div className="mb-4 sm:mb-5">
+        <Link
+          to={`/?year=${year}`}
+          className="text-sm font-medium text-stone-400 transition hover:text-stone-600"
+        >
+          ← {year} overview
+        </Link>
+        <h2 className="text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+          {monthLabel}
+        </h2>
       </div>
 
       <DndContext
@@ -295,8 +289,8 @@ export function MonthView() {
         onDragCancel={onDragCancel}
         autoScroll
       >
-        <div className="w-full min-w-0">
-          <div className="space-y-2 sm:hidden">
+        <div className="w-full min-w-0 px-2.5 sm:px-0">
+          <div className="space-y-3.5 sm:hidden">
             {monthGridCells(year, month)
               .filter((cell) => cell.inMonth)
               .map((cell) => (
@@ -547,7 +541,7 @@ function DayColumn({
       className={clsx(
         "group/d relative flex h-full min-h-0 min-w-0 flex-col p-0",
         stacked
-          ? "overflow-hidden rounded-md border border-stone-200/70"
+          ? "overflow-hidden rounded-2xl border border-stone-200/60 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
           : "border-b border-r border-stone-200/60",
         isToday
           && "z-1 bg-amber-50/55 ring-2 ring-inset ring-amber-500/80 shadow-[inset_0_0_0_1px_rgba(251,191,36,0.2)]",
@@ -560,20 +554,35 @@ function DayColumn({
     >
       <div
         className={clsx(
-          "flex shrink-0 items-center justify-end gap-0.5 px-1.5 py-0.5 text-[0.65rem] font-medium tabular-nums",
-          isToday && "bg-amber-100/40",
-          isToday ? "text-amber-950" : "text-stone-400",
+          "flex w-full shrink-0 items-center justify-end gap-1",
+          stacked
+            ? "px-3.5 py-2.5 text-sm font-semibold tabular-nums"
+            : "px-1.5 py-0.5 text-[0.65rem] font-medium tabular-nums",
+          isToday && (stacked ? "bg-amber-100/50" : "bg-amber-100/40"),
+          isToday ? "text-amber-950" : stacked ? "text-stone-500" : "text-stone-400",
         )}
       >
         {isToday ? (
           <>
-            <span className="min-w-0 text-base font-bold leading-none text-amber-950 tabular-nums">
+            <span
+              className={clsx(
+                "min-w-0 font-bold leading-none text-amber-950 tabular-nums",
+                stacked ? "text-xl" : "text-base",
+              )}
+            >
               {dayNum}
             </span>
-            <span className="max-w-[1.8rem] text-left text-[0.5rem] font-extrabold leading-tight text-amber-800 uppercase">
+            <span
+              className={clsx(
+                "text-left font-extrabold leading-tight text-amber-800 uppercase",
+                stacked ? "max-w-[2.2rem] text-xs" : "max-w-[1.8rem] text-[0.5rem]",
+              )}
+            >
               Today
             </span>
           </>
+        ) : stacked ? (
+          <span className="text-lg text-stone-500 tabular-nums">{dayNum}</span>
         ) : (
           dayNum
         )}
@@ -581,7 +590,7 @@ function DayColumn({
       <div
         className={clsx(
           "relative flex w-full min-w-0 flex-1 flex-col",
-          stacked ? "min-h-26" : DAY_TASK_AREA_MIN,
+          stacked ? "min-h-32 px-0.5 pb-1" : DAY_TASK_AREA_MIN,
         )}
       >
         {empty && (
@@ -617,6 +626,7 @@ function DayColumn({
                     task={t}
                     categoryName={catName}
                     colorKey={catKey}
+                    comfortable={stacked}
                   />
                 ))}
               </ul>
@@ -636,7 +646,12 @@ function DayColumn({
             >
               <input
                 ref={inputRef}
-                className="h-7 w-full min-w-0 border-0 border-t border-stone-200/80 bg-amber-50/50 px-2 text-[0.7rem] text-stone-800 sm:text-xs focus:ring-0"
+                className={clsx(
+                  "w-full min-w-0 border-0 border-t border-stone-200/80 bg-amber-50/50 text-stone-800 focus:ring-0",
+                  stacked
+                    ? "h-11 px-3 py-2 text-sm"
+                    : "h-7 px-2 text-[0.7rem] sm:text-xs",
+                )}
                 placeholder="Add task"
                 value={draft}
                 autoFocus

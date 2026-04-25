@@ -39,11 +39,14 @@ export function SortableTaskRow({
   task,
   categoryName,
   colorKey,
+  comfortable = false,
 }: {
   id: string;
   task: Doc<"tasks">;
   categoryName: (id: Id<"categories"> | undefined) => string;
   colorKey: (id: Id<"categories"> | undefined) => ColorKey;
+  /** Larger touch targets for stacked / mobile day cards */
+  comfortable?: boolean;
 }) {
   const [editing, setEditing] = useState(false);
   const [editValue, setEditValue] = useState(task.title);
@@ -108,24 +111,36 @@ export function SortableTaskRow({
       ref={setRef}
       style={style}
       className={clsx(
-        "pointer-events-auto group relative z-10 mb-0.5 flex w-full min-w-0 items-center rounded-sm",
-        "border border-stone-200/85 bg-stone-50/75 text-[0.7rem] leading-tight shadow-[0_1px_0_0_rgba(255,255,255,0.8)]",
+        "pointer-events-auto group relative z-10 flex w-full min-w-0 items-center rounded-sm",
+        comfortable ? "mb-1.5 last:mb-0" : "mb-0.5",
+        "border border-stone-200/85 bg-stone-50/75 shadow-[0_1px_0_0_rgba(255,255,255,0.8)]",
         "transition-colors hover:bg-white",
-        "sm:text-xs",
+        comfortable ? "text-sm leading-snug" : "text-[0.7rem] leading-tight sm:text-xs",
       )}
       data-no-new
       data-task-row
       {...attributes}
       {...listeners}
     >
-      <div className="flex h-7 min-w-0 flex-1 items-center">
+      <div
+        className={clsx(
+          "flex min-w-0 flex-1 items-center",
+          comfortable ? "min-h-11" : "h-7",
+        )}
+      >
         <label
-          className="flex h-full w-4 shrink-0 cursor-default items-center justify-center pl-0.5"
+          className={clsx(
+            "flex h-full shrink-0 cursor-default items-center justify-center pl-0.5",
+            comfortable ? "w-9 pl-1" : "w-4",
+          )}
           onPointerDown={stopDrag}
         >
           <input
             type="checkbox"
-            className="size-3.5 cursor-pointer rounded border-stone-300"
+            className={clsx(
+              "cursor-pointer rounded border-stone-300",
+              comfortable ? "size-[1.15rem] touch-manipulation" : "size-3.5",
+            )}
             checked={task.done}
             onChange={() => void toggle({ id: task._id })}
           />
@@ -134,7 +149,10 @@ export function SortableTaskRow({
         {editing ? (
           <input
             ref={editInputRef}
-            className="h-7 min-w-0 flex-1 self-center border-0 bg-amber-50/40 pl-1.5 pr-0.5 text-stone-800 outline-none ring-0"
+            className={clsx(
+              "min-w-0 flex-1 self-center border-0 bg-amber-50/40 text-stone-800 outline-none ring-0",
+              comfortable ? "min-h-10 py-1 pl-2 pr-1 text-sm" : "h-7 pl-1.5 pr-0.5",
+            )}
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
             onPointerDown={stopDrag}
@@ -157,7 +175,8 @@ export function SortableTaskRow({
             role="button"
             tabIndex={0}
             className={clsx(
-              "flex h-7 min-w-0 flex-1 items-center pl-1.5 pr-1.5 text-left",
+              "flex min-w-0 flex-1 items-center text-left",
+              comfortable ? "min-h-10 py-0.5 pl-2 pr-1.5" : "h-7 pl-1.5 pr-1.5",
               "cursor-text touch-manipulation",
               task.done
                 ? "text-stone-400 line-through decoration-stone-300/80"
@@ -197,7 +216,10 @@ export function SortableTaskRow({
           </span>
         )}
         <div
-          className="flex h-7 w-[2.1rem] shrink-0 items-center justify-end gap-0.5 self-stretch pl-0.5 pr-0.5"
+          className={clsx(
+            "flex shrink-0 items-center justify-end gap-0.5 self-stretch pl-0.5 pr-0.5",
+            comfortable ? "min-h-10 w-11" : "h-7 w-[2.1rem]",
+          )}
           onPointerDown={stopDrag}
         >
           {!task.done && (
