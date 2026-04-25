@@ -1,0 +1,136 @@
+Weekly Theme Access (Month View - Minimal)
+
+Goal: Make the weekly theme accessible directly from month view with one subtle, discoverable click.
+
+Placement:
+- Add a small `Weekly` text chip in the month view header (top-right, same row as month title).
+- Keep it neutral by default (no heavy color fill, no icon unless already used in the app).
+
+Interaction:
+- Click `Weekly` to open the current week's theme in a lightweight modal/sheet.
+- Optional secondary behavior: clicking any week row number in month view opens that specific week's theme.
+
+Content shown:
+- Week label (e.g., `Week 12`)
+- Theme title
+- One core idea paragraph
+- One quote
+
+Minimalism rules:
+- One tap in, one tap out.
+- No extra tabs, carousels, or nested navigation.
+- Reuse existing typography and spacing scale from month view.
+- Keep visual hierarchy quiet: date grid remains primary, weekly theme is secondary.
+
+---
+
+Here is the first installment of 52 potent weekly reminders for your app, focusing on the first 13 weeks of the year. These entries combine quotes with their underlying philosophical frameworks to ensure you stay aligned with your vision and prioritize your time ruthlessly.
+
+Week 1: The Genetic Blueprint of Success
+The Idea: Most people focus on surface-level tactics (ads, funnels, websites) while ignoring the "Conceptual Integrity" of their life and business. Your vision, mission, and principles are the DNA of your future. Everything that happens from here—every decision, hire, and product—must be based on this blueprint. Without a clear "North Star," you will eventually build a machine that self-destructs because its components are aiming in different directions.
++3
+
+
+"Vision, mission, and principles are the DNA of everything to come... everything that happens in the future will be based off this blueprint." — Sam Ovens 
+
+Week 2: The Law of Action vs. Attraction
+The Idea: Intent alone is a "lousy" motivator. To unlock deeper levels of drive and attract world-class talent, your mission must be bigger than your personal enrichment. While envisioning the future is critical, it is useless without "violent action". You must collapse your 30-year vision back to today's micro-tasks and execute them meticulously. Success isn't born; it's made through the residue of good design and unrelenting execution.
++4
+
+
+"I don't believe in the law of attraction... I believe in the law of action. Action without purpose and direction will just be used poorly... but [vision] alone is not enough. You need to execute." — Sam Ovens 
++1
+
+Week 3: The aggregation of 1% Gains
+
+The Idea: We often overestimate the importance of one defining moment and underestimate the value of making small daily improvements. Habits are the "compound interest" of self-improvement. If you can get just 1% better each day, you will be 37 times better by the end of the year. Conversely, ignoring tiny 1% errors leads to toxic results over time. Focus on the trajectory, not the current results.
++4
+
+
+"Success is the product of daily habits—not once-in-a-lifetime transformations." — James Clear 
+
+Week 4: The Buyback Principle
+
+The Idea: Most entrepreneurs hit a "Pain Line" where more growth feels like a prison because they are trading their time for money. The fundamental shift is realizing you don't hire people to grow your business; you hire them to buy back your time. If you don't fight for the value of your time, nobody else will. Use your income to buy freedom, then fill that freedom with high-value production that lights you up.
++4
+
+
+"You don’t hire people to grow your business; you hire people to buy back your time. If you do the first you get a prison, if you do the second you get freedom." — Dan Martell 
++1
+
+Week 5: Identity-Based Habits
+
+The Idea: True behavior change is actually identity change. You might start a habit because of motivation, but you only stick with it because it becomes part of who you are. Every action you take is a "vote" for the type of person you wish to become. Don't focus on what you want to achieve (outcomes); focus on who you wish to become (identity).
++2
+
+
+"The goal is not to read a book, the goal is to become a reader. The goal is not to run a marathon, the goal is to become a runner." — James Clear 
+
+Week 6: Systems vs. Goals
+
+The Idea: Prevailing wisdom says the best way to achieve what you want is to set specific goals, but winners and losers often have the same goals. Goals are about the results; systems are about the processes that lead to those results. Achieving a goal only changes your life for a moment; changing the system changes the trajectory for good.
++3
+
+
+"You do not rise to the level of your goals. You fall to the level of your systems." — James Clear 
++1
+
+Week 7: The Maker vs. Manager Schedule
+The Idea: There are two types of schedules. Managers divide time into 15-minute chunks to maximize coordination. Makers (creators and builders) need large, 4-hour blocks of "Deep Work" to move the ball forward. For a maker, an empty calendar is a "maximally productive" day. Don't let manager-style "got a minute?" meetings destroy your maker-style output.
++4
+
+
+"A manager’s objective is to fill the day; a maker’s is to keep it empty. Empty time blocks are opportunities to get a return." — Alex Hormozi 
++1
+
+Week 8: Environment as the Architect
+
+The Idea: Motivation is overrated; environment often matters more. We are changed by the world around us because every habit is context-dependent. If you want a habit to be a big part of your life, make the cue a big part of your environment. Redesign your space so the "best choice" is always the "most obvious" one.
++3
+
+
+"Be the designer of your world and not merely the consumer of it." — James Clear 
+
+Week 9: The Two-Minute Rule
+
+The Idea: When you dream about making a change, you end up trying to do too much too soon. To counteract this, scale any new habit down to a version that takes less than two minutes. The point is not to do one thing, but to master the habit of showing up. You have to "standardize before you can optimize"—you can't improve a habit that doesn't exist.
++3
+
+
+"When you start a new habit, it should take less than two minutes to do... master the art of showing up." — James Clear 
++1
+
+Week 10: Ruthless Elimination
+
+The Idea: Focus is not just about what you do, but what you don't do. To achieve extreme focus, you must eliminate the "Time Assassins"—stalling, micromanaging, and self-medicating. Success often comes from "addition by subtraction": removing the points of friction that sap your energy so you can spend it on what really matters.
++3
+
+
+"It’s not what I do; it’s what I don’t do... You can’t eliminate the distractions pulling you away from your ideal life until you know what those are." — Dan Martell 
+
+Week 11: The Goldilocks Rule
+
+The Idea: The greatest threat to success is not failure, but boredom. To stay motivated, you must work on tasks of "just manageable difficulty"—roughly 4% beyond your current ability. This is the "Goldilocks Zone" where focus narrows and distractions fade away. Mastery requires falling in love with the boredom of doing the same thing over and over until you are excellent.
++4
+
+
+"The way to maintain motivation and achieve peak levels of desire is to work on tasks of just manageable difficulty... You have to fall in love with boredom." — James Clear 
++1
+
+Week 12: Reflection and Review
+
+The Idea: Improvement is not just about learning habits; it’s about fine-tuning them. Without reflection, we make excuses and lie to ourselves about our performance. Periodic review—viewing yourself from a "conversational distance"—allows you to see the important changes you should make without losing sight of the bigger picture.
++2
+
+
+"Reflection and review enables the long-term improvement of all habits because it makes you aware of your mistakes." — James Clear 
+
+Week 13: Never Miss Twice
+
+The Idea: Perfection is not possible, and life will eventually interrupt you. The first mistake is never the one that ruins you; it is the spiral of repeated mistakes that follows. Missing once is an accident; missing twice is the start of a new habit. On busy or sluggish days, simply "showing up" (even for 5 minutes) is huge because it maintains your compound gains and reaffirms your identity.
++2
+
+
+"Never miss twice. If I miss one day, I try to get back into it as quickly as possible." — James Clear 
+
+Would you like me to proceed with weeks 14 through 26?
