@@ -82,18 +82,23 @@ export function HelpModal() {
             id={titleId}
             className="text-lg font-semibold text-stone-900 dark:text-stone-50"
           >
-            Shortcuts
+            How it works
           </h2>
           <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
-            A quick reference. With focus outside a text field, press{" "}
-            <kbd className="rounded border border-stone-300/90 bg-stone-100/90 px-1 font-mono text-xs dark:border-stone-600 dark:bg-stone-800/90">
-              ?
-            </kbd>{" "}
-            to toggle this panel.
+            Reverse-engineer your year-long vision into daily actions. Stay
+            aligned with a visual roadmap, top-of-mind vision board, and
+            focused deep work sessions.
           </p>
         </div>
+
+        <div className="border-b border-stone-100 bg-stone-50/50 px-5 py-3 sm:px-6 dark:border-stone-800 dark:bg-stone-900/50">
+          <h3 className="text-[0.7rem] font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500">
+            Keyboard Shortcuts
+          </h3>
+        </div>
+
         <ul
-          className="max-h-[min(50vh,22rem)] list-none space-y-0 overflow-y-auto px-5 py-2 sm:px-6"
+          className="max-h-[min(40vh,18rem)] list-none space-y-0 overflow-y-auto px-5 py-2 sm:px-6"
         >
           {rows.map((row) => (
             <li
