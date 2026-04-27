@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# War Map
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This application is a visual execution system designed to bridge the gap between high-level ambition and daily tactical performance. Inspired by Sam Ovens' "War Map," it empowers you to reverse-engineer a **year-long vision** into concrete monthly objectives and precise **daily actions**, ensuring that every hour spent is a direct contribution to your most important goals.
 
-Currently, two official plugins are available:
+## How It Works
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Vision-to-Action Pipeline
+You define broad project categories and map out long-term plans, which are then broken down into monthly focus notes and specific daily tasks.
 
-## React Compiler
+### Visual Anchoring
+A dedicated **Vision Board** sits subtly in the bottom-left corner of your screen, keeping your most inspiring images "top of mind" as a constant reminder of your "Why."
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### The Focus Engine
+To ensure the work actually gets done, the app includes a **minimalist Pomodoro timer** for deep work and an **Analytics** suite that tracks your focus time and project distribution.
 
-## Expanding the ESLint configuration
+## Why This App is Valuable
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The greatest threat to success is "drifting"—losing sight of the big picture in the noise of the day-to-day. This app is valuable because it enforces **absolute alignment**. It eliminates guesswork by providing a clear, visual roadmap that turns abstract dreams into a structured, inevitable reality through consistent, focused execution.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Frontend:** React (TypeScript) + Vite
+- **Styling:** Tailwind CSS (Custom stone palette)
+- **Backend:** Convex
+- **Icons:** SVG-based custom components
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Install dependencies
+npm install
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Run dev server
+npm run dev
+
+# Run Convex dev
+npx convex dev
 ```
